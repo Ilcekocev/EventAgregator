@@ -1,26 +1,22 @@
 package com.sorsix.eventagregator.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="type")
-public abstract class Event implements Serializable{
+public class Event {
+
     @Id
     @GeneratedValue
-    protected Long id;
-    protected String title;
-    protected Type type;
-    protected String description;
-    protected LocalDateTime start;
-    protected LocalDateTime end;
+    private Long id;
+    private String title;
+    private Type type;
+    private String description;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     @ManyToOne
     private User user;
-
-
 
     public String getTitle() {
         return title;
@@ -48,18 +44,19 @@ public abstract class Event implements Serializable{
     }
 
     public LocalDateTime getStart() {
-        return start;
+        return startTime;
     }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
+    public void setStart(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     public LocalDateTime getEnd() {
-        return end;
+        return endTime;
     }
 
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
+    public void setEnd(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
+
 }

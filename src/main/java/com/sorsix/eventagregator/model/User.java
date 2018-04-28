@@ -21,7 +21,7 @@ public class User {
     @JsonIgnore
     LocalDate birthDate;
     @OneToMany(mappedBy = "user")
-    List<EventPrivate> privateEvents;
+    List<Event> privateEvents;
 
     public User(){}
 
