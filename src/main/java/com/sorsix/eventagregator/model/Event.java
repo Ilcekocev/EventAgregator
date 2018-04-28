@@ -1,10 +1,15 @@
 package com.sorsix.eventagregator.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
+@Getter
+@Setter
 public class Event {
 
     @Id
@@ -15,48 +20,30 @@ public class Event {
     private String description;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private String externalLink;
     @ManyToOne
     private User user;
 
-    public String getTitle() {
-        return title;
-
+    public Event() {
     }
 
-    public void setTitle(String title) {
+    public Event(String title, Type type, String description, LocalDateTime startTime, LocalDateTime endTime, String externalLink, User user) {
         this.title = title;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
         this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
-    }
-
-    public LocalDateTime getStart() {
-        return startTime;
-    }
-
-    public void setStart(LocalDateTime startTime) {
         this.startTime = startTime;
-    }
-
-    public LocalDateTime getEnd() {
-        return endTime;
-    }
-
-    public void setEnd(LocalDateTime endTime) {
         this.endTime = endTime;
+        this.externalLink = externalLink;
+        this.user = user;
+    }
+
+    public Event(String title, Type type, String description, LocalDateTime startTime, LocalDateTime endTime, User user) {
+        this.title = title;
+        this.type = type;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.user = user;
     }
 
 }
