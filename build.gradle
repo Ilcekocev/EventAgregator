@@ -31,8 +31,8 @@ dependencies {
 	runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly 'org.projectlombok:lombok:1.16.20'
 	runtime('org.postgresql:postgresql')
+	compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.0.RELEASE'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
 	testCompile group: 'com.jayway.restassured', name: 'rest-assured', version: '2.9.0'
-	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.2.RELEASE'
 }

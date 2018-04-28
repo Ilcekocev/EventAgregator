@@ -1,5 +1,8 @@
 package com.sorsix.eventagregator.model;
 
+
+
+
 import lombok.Getter;
 import lombok.Setter;
 
