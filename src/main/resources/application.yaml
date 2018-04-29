@@ -5,6 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/myDb
     username: ilce
+    password: pw
 
 facebook:
   client:
@@ -28,3 +29,18 @@ github:
     clientAuthenticationScheme: form
   resource:
     userInfoUri: https://api.github.com/user
+
+google:
+  client:
+    clientId: 45262671971-sn96irqfh0oai1ag1dp6v733nugk7lgd.apps.googleusercontent.com
+    clientSecret: rjkTlr55FeUkn66OA6DE8-oG
+    accessTokenUri: https://www.googleapis.com/oauth2/v3/token
+    userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+    scope: profile email
+  resource:
+    userInfoUri: https://www.googleapis.com/userinfo/v2/me
+
+
