@@ -23,6 +23,7 @@ public class User {
     String lastName;
     @JsonIgnore
     LocalDate birthDate;
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Event> privateEvents;
 
