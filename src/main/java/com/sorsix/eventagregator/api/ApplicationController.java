@@ -1,5 +1,6 @@
 package com.sorsix.eventagregator.api;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,5 +17,9 @@ public class AuthController {
         return principal;
     }
 
+    @GetMapping("/hello")
+    public String hello(Principal principal) {
+        return "Heloo"+ principal.getName();
+    }
 
 }
