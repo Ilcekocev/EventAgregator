@@ -6,11 +6,16 @@ spring:
     url: jdbc:postgresql://localhost:5432/myDb
     username: ilce
     password: pw
+  security:
+    oauth2:
+      client:
+        provider:
+          redirect_uri: "localhost:8080/users"
 
 facebook:
   client:
-    clientId: 233668646673605
-    clientSecret: 33b17e044ee6a4fa383f46ec6e28ea1d
+    clientId: 2007166799325274
+    clientSecret: 7b5348e33daff1330a57cdd60cbb71ce
     accessTokenUri: https://graph.facebook.com/oauth/access_token
     userAuthorizationUri: https://www.facebook.com/dialog/oauth
     tokenName: oauth_token
@@ -22,8 +27,8 @@ facebook:
 
 github:
   client:
-    clientId: bd1c0a783ccdd1c9b9e4
-    clientSecret: 1a9030fbca47a5b2c28e92f19050bb77824b5ad1
+    clientId: 9bd5a6a917cf64d5de0e
+    clientSecret: 8acad114d7e3ec994b6a14df607d167127abdfd4
     accessTokenUri: https://github.com/login/oauth/access_token
     userAuthorizationUri: https://github.com/login/oauth/authorize
     clientAuthenticationScheme: form
@@ -32,8 +37,8 @@ github:
 
 google:
   client:
-    clientId: 45262671971-sn96irqfh0oai1ag1dp6v733nugk7lgd.apps.googleusercontent.com
-    clientSecret: rjkTlr55FeUkn66OA6DE8-oG
+    clientId: 484790386680-3f1g3ku2hud5v2k6d2vjhd3fmggvvvc3.apps.googleusercontent.com
+    clientSecret: vYTaRECC7KJ24MEHdqf2-IrS
     accessTokenUri: https://www.googleapis.com/oauth2/v3/token
     userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
     tokenName: oauth_token

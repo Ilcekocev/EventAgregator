@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -16,8 +13,7 @@ import java.util.List;
 @Setter
 public class User {
     @Id
-    @GeneratedValue
-    Long id;
+    String email;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Event> privateEvents;
@@ -25,6 +21,19 @@ public class User {
     @OneToOne
     UserDetails userDetails;
 
-    public User(){}
+    public User() {
+    }
 
+    public User(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return com.google.common.base.Objects.toStringHelper(this)
+                .add("email", email)
+                .add("privateEvents", privateEvents)
+                .add("userDetails", userDetails)
+                .toString();
+    }
 }

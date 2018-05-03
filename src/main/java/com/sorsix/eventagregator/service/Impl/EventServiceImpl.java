@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-
 @Service
 public class EventServiceImpl implements EventService {
 
@@ -42,7 +41,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> findEventsByDate(LocalDateTime startTime, LocalDateTime endTime) {
-        return eventRepository.findEventByStartTimeAndEndTime(startTime,endTime);
+        return eventRepository.findEventByStartTimeAndEndTime(startTime, endTime);
     }
 
     @Override

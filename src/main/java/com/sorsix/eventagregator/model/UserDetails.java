@@ -1,13 +1,12 @@
 package com.sorsix.eventagregator.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Objects;
+import com.sorsix.eventagregator.model.enums.Provider;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -16,24 +15,41 @@ import java.time.LocalDate;
 @Setter
 public class UserDetails {
     @Id
-    Long id;
-    String email;
+    String authId;
     String firstName;
     String lastName;
-    @JsonIgnore
-    LocalDate birthDate;
+    Provider provider;
+
+    @Transient
     @OneToOne(mappedBy = "userDetails")
     User user;
 
     public UserDetails() {
     }
 
-    public UserDetails(Long id, String email, String firstName, String lastName, LocalDate birthDate, User user) {
-        this.id = id;
-        this.email = email;
+    public UserDetails(String authId, String firstName, String lastName, User user, Provider provider) {
+        this.authId = authId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthDate = birthDate;
         this.user = user;
+        this.provider = provider;
+    }
+
+    public static UserDetails createFromMapValues(String authId, String name, User user, Provider provider) {
+        String [] firstAndLastName = name.split("\\s+");
+        String firstName = firstAndLastName[0];
+        String lastName = firstAndLastName[1];
+        return new UserDetails(authId,firstName, lastName, user, provider);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("authId", authId)
+                .add("firstName", firstName)
+                .add("lastName", lastName)
+                .add("provider", provider)
+                .add("user", user)
+                .toString();
     }
 }

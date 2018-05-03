@@ -1,9 +1,11 @@
 package com.sorsix.eventagregator.model;
 
 
+import com.google.common.base.Objects;
 import com.sorsix.eventagregator.model.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -47,4 +49,17 @@ public class Event {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("title", title)
+                .add("type", type)
+                .add("description", description)
+                .add("startTime", startTime)
+                .add("endTime", endTime)
+                .add("externalLink", externalLink)
+                .add("user", user)
+                .toString();
+    }
 }
