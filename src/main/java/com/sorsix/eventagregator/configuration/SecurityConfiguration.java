@@ -45,9 +45,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Filter ssoFilter() {
         CompositeFilter filter = new CompositeFilter();
 
-        OAuth2ClientAuthenticationProcessingFilter faceBookFilter = filterProvider.getFilter("/login/facebook", facebook(), facebookResource());
-        OAuth2ClientAuthenticationProcessingFilter githubFilter = filterProvider.getFilter("/login/github", github(), githubResource());
-        OAuth2ClientAuthenticationProcessingFilter googleFilter = filterProvider.getFilter("/login/google", google(), googleResource());
+        OAuth2ClientAuthenticationProcessingFilter faceBookFilter = filterProvider.createFilter("/login/facebook", facebook(), facebookResource());
+        OAuth2ClientAuthenticationProcessingFilter githubFilter = filterProvider.createFilter("/login/github", github(), githubResource());
+        OAuth2ClientAuthenticationProcessingFilter googleFilter = filterProvider.createFilter("/login/google", google(), googleResource());
 
         List<Filter> filters = new ArrayList<>(Arrays.asList(faceBookFilter, githubFilter, googleFilter));
         filter.setFilters(filters);

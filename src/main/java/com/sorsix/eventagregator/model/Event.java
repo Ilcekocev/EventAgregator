@@ -1,6 +1,7 @@
 package com.sorsix.eventagregator.model;
 
 
+import com.sorsix.eventagregator.model.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;

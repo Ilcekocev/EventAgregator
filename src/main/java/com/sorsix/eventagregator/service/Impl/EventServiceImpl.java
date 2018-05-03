@@ -1,9 +1,8 @@
-package com.sorsix.eventagregator.service;
+package com.sorsix.eventagregator.service.Impl;
 
 import com.sorsix.eventagregator.model.Event;
-import com.sorsix.eventagregator.model.Type;
-import com.sorsix.eventagregator.model.User;
 import com.sorsix.eventagregator.repository.EventRepository;
+import com.sorsix.eventagregator.service.EventService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

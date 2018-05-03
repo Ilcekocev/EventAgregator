@@ -17,9 +17,9 @@ public class FilterProvider {
         this.oauth2ClientContext = oauth2ClientContext;
     }
 
-    public OAuth2ClientAuthenticationProcessingFilter getFilter(String processURL,
-                                                                AuthorizationCodeResourceDetails client,
-                                                                ResourceServerProperties resource) {
+    public OAuth2ClientAuthenticationProcessingFilter createFilter(String processURL,
+                                                                   AuthorizationCodeResourceDetails client,
+                                                                   ResourceServerProperties resource) {
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(processURL);
         OAuth2RestTemplate restTemplate = new OAuth2RestTemplate(client, oauth2ClientContext);
         filter.setRestTemplate(restTemplate);

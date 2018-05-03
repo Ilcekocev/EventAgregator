@@ -17,15 +17,13 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue
-    protected Long id;
-    String email;
-    String firstName;
-    String lastName;
-    @JsonIgnore
-    LocalDate birthDate;
+    Long id;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Event> privateEvents;
+
+    @OneToOne
+    UserDetails userDetails;
 
     public User(){}
 

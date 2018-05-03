@@ -1,9 +1,6 @@
 package com.sorsix.eventagregator.service;
 
 import com.sorsix.eventagregator.model.Event;
-import com.sorsix.eventagregator.model.Type;
-import com.sorsix.eventagregator.model.User;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

@@ -14,50 +14,51 @@ import java.util.List;
 
 
 @RestController
-public class ApplicationController {
+@RequestMapping("/events")
+public class EventController {
 
-    EventService eventService;
+    private final EventService eventService;
 
-    public ApplicationController(EventService eventService) {
+    public EventController(EventService eventService) {
         this.eventService = eventService;
     }
 
 
-    //Get info about the user
-    @RequestMapping("/user")
-    public Principal user(Principal principal) {
-        return principal;
+    @PostMapping
+    public ResponseEntity<Event> createEvent(@RequestBody Event event) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(eventService.createEvent(event));
     }
 
-    @PostMapping("/api/createEvent")
-    public ResponseEntity<Void> createEvent(@RequestBody Event event) {
-        eventService.createEvent(event);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @GetMapping("/api/events")
+    @GetMapping
     public List<Event> getAllEvents() {
         return eventService.getAllEvents();
     }
 
-    @DeleteMapping("/api/delete/{id}")
+    @DeleteMapping
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
          eventService.deleteEvent(id);
          return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/api/event/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
-        Event event = eventService.findEventById(id).orElse(null);
-        if (event == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        else return new ResponseEntity<>(event,HttpStatus.OK);
+        return eventService.findEventById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.badRequest().build());
     }
 
-    @GetMapping("/api/eventsOnDate")
+    /**
+     *
+     *
+     * @param start
+     * @param end
+     * @return
+     * TODO:  Probably should be set between start and end ?
+     */
+    @GetMapping("/eventsOnDate")
     public List<Event> getEventsOnDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
          return eventService.findEventsByDate(start,end);
     }
-
 }
