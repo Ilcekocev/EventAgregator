@@ -36,8 +36,10 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+
 } from '@angular/material';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   exports: [
@@ -77,6 +79,7 @@ import {
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    FlexLayoutModule
   ]
 })
 export class MaterialModuleModule { }
