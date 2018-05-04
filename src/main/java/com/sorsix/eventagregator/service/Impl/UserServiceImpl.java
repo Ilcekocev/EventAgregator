@@ -34,21 +34,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createOrFindUser(Authentication authentication, String requestURI) {
+    public Optional<User> login(Authentication authentication, String requestURI) {
         Map userDetailsMap = convertAuthDetailsToMap(authentication);
-        String email = userDetailsMap.get("email").toString();
-        return userRepository.findById(email)
+        Optional<String> email = Optional.ofNullable((String) userDetailsMap.get("email"));
+        return email.map(mail -> createOrFindUser(mail, userDetailsMap, requestURI));
+    }
+
+    private User createOrFindUser(String mail, Map details, String requestURI) {
+        return userRepository.findById(mail)
                 .map(user -> {
                     logger.info("User has been found {}", user);
                     return user;
                 })
                 .orElseGet(() -> {
                     logger.info("Creating user with OAuth2 Provider Details");
-                    String name = userDetailsMap.get("name").toString();
-                    String authId = userDetailsMap.get("id").toString();
+                    String name = details.get("name").toString();
+                    String authId = details.get("id").toString();
                     Provider provider = findProviderFromURI(requestURI);
-                    User user = new User(email);
+                    User user = new User(mail);
                     UserDetails userDetails = UserDetails.createFromMapValues(authId, name, user, provider);
+                    logger.info("Saving user details");
                     userDetailsRepository.save(userDetails);
                     user.setUserDetails(userDetails);
                     logger.info("Finished creating user with OAuth2 Provider Details: {}", user);
@@ -59,7 +64,9 @@ public class UserServiceImpl implements UserService {
     private Map convertAuthDetailsToMap(Authentication authentication) {
         OAuth2Authentication auth = (OAuth2Authentication) authentication;
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.convertValue(auth.getUserAuthentication().getDetails(), Map.class);
+        Map map =mapper.convertValue(auth.getUserAuthentication().getDetails(), Map.class);
+        logger.info("{}", map);
+        return map;
     }
 
     private Provider findProviderFromURI(String requestURI) {

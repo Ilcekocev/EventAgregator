@@ -49,7 +49,6 @@ public class UserDetails {
                 .add("firstName", firstName)
                 .add("lastName", lastName)
                 .add("provider", provider)
-                .add("user", user)
                 .toString();
     }
 }

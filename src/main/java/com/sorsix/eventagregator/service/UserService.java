@@ -12,6 +12,6 @@ public interface UserService {
 
     Optional<User> findUserById(String id);
 
-    User createOrFindUser(Authentication authentication, String requestURI);
+    Optional<User> login(Authentication authentication, String requestURI);
 
 }

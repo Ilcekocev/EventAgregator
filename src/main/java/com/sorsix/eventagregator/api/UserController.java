@@ -1,5 +1,6 @@
 package com.sorsix.eventagregator.api;
 
+import com.sorsix.eventagregator.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -25,6 +26,7 @@ public class UserController {
         logger.info("{}", oAuth2Authentication.getUserAuthentication().getCredentials());
         return oAuth2Authentication;
     }
+
 
 
 }

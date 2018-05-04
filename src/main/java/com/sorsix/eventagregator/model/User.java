@@ -32,7 +32,6 @@ public class User {
     public String toString() {
         return com.google.common.base.Objects.toStringHelper(this)
                 .add("email", email)
-                .add("privateEvents", privateEvents)
                 .add("userDetails", userDetails)
                 .toString();
     }
