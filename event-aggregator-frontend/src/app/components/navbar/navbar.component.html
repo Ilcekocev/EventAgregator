@@ -1,0 +1,22 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="isHandset ? 'dialog' : 'navigation'"
+    [mode]="(isHandset | async)!.matches ? 'over' : 'side'"
+    [opened]="!(isHandset | async)!.matches">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list fxLayout="column">
+      <a mat-list-item routerLink="home">Home Page</a>
+      <a mat-list-item href="#">My events</a>
+      <a mat-list-item routerLink="login">Login</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-button (click)="drawer.toggle()">Toggle menu</button>
+      <span>Event Aggregator</span>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
