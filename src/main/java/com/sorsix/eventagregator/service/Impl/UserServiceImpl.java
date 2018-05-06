@@ -2,7 +2,6 @@ package com.sorsix.eventagregator.service.Impl;
 
 import com.sorsix.eventagregator.model.User;
 import com.sorsix.eventagregator.model.UserDetails;
-import com.sorsix.eventagregator.model.enums.Provider;
 import com.sorsix.eventagregator.repository.UserDetailsRepository;
 import com.sorsix.eventagregator.repository.UserRepository;
 import com.sorsix.eventagregator.service.UserService;
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
         return email.map(mail -> createOrFindUser(mail, userDetailsMap, requestURI));
     }
 
-    private User createOrFindUser(String mail, Map details, String requestURI) {
+    public User createOrFindUser(String mail, Map details, String requestURI) {
         return userRepository.findById(mail)
                 .map(user -> {
                     logger.info("User has been found {}", user);
@@ -48,17 +47,20 @@ public class UserServiceImpl implements UserService {
                 })
                 .orElseGet(() -> {
                     logger.info("Creating user with OAuth2 Provider Details");
-                    String name = details.get("name").toString();
-                    String authId = details.get("id").toString();
-                    Provider provider = findProviderFromURI(requestURI);
-                    User user = new User(mail);
-                    UserDetails userDetails = UserDetails.createFromMapValues(authId, name, user, provider);
-                    logger.info("Saving user details");
-                    userDetailsRepository.save(userDetails);
-                    user.setUserDetails(userDetails);
+                    UserDetails userDetails = createUserDetails(details, requestURI);
+                    User user = new User(mail, userDetails);
                     logger.info("Finished creating user with OAuth2 Provider Details: {}", user);
                     return userRepository.save(user);
                 });
+    }
+
+    public UserDetails createUserDetails(Map details, String requestURI) {
+        logger.info("Creating user details");
+        String name = details.get("name").toString();
+        String authId = details.get("id").toString();
+        UserDetails userDetails = UserDetails.createFromMapValues(authId, name);
+        logger.info("Saving user details for {}", name);
+        return userDetailsRepository.save(userDetails);
     }
 
     private Map convertAuthDetailsToMap(Authentication authentication) {
@@ -67,15 +69,6 @@ public class UserServiceImpl implements UserService {
         Map map =mapper.convertValue(auth.getUserAuthentication().getDetails(), Map.class);
         logger.info("{}", map);
         return map;
-    }
-
-    private Provider findProviderFromURI(String requestURI) {
-        if (requestURI.contains("github"))
-            return Provider.GITHUB;
-        else if (requestURI.contains("facebook"))
-            return Provider.GOOGLE;
-        else
-            return Provider.FACEBOOK;
     }
 
 
