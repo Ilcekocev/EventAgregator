@@ -13,6 +13,7 @@ import {AppRoutingModule} from "./modules/app-routing.module";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { UserService} from "./services/user.service";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     MatIconModule,
     MatListModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

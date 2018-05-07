@@ -23,7 +23,7 @@ public class RedirectURLAuthenticationSuccessHandler implements AuthenticationSu
 
     private void handle(HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("Handling the request");
-        String redirectURL = "http://localhost:8080/users";
+        String redirectURL = "http://localhost:4200/";
         if (response.isCommitted()) {
             logger.debug("Response has been commited");
         } else {
