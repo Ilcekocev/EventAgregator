@@ -2,12 +2,15 @@ package com.sorsix.eventagregator.configuration;
 
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
@@ -16,7 +19,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.filter.CompositeFilter;
 
 import javax.servlet.Filter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,18 +26,19 @@ import java.util.List;
 @EnableOAuth2Client
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final FilterProvider filterProvider;
+    private final OAuth2ClientContext oauth2ClientContext;
 
-    public SecurityConfiguration(FilterProvider filterProvider) {
-        this.filterProvider = filterProvider;
+    public SecurityConfiguration(OAuth2ClientContext oauth2ClientContext) {
+        this.oauth2ClientContext = oauth2ClientContext;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
+                .httpBasic().disable()
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/login**", "/webjars/**")
+                .antMatchers("/", "/login/**", "/api/public/")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -45,11 +48,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Filter ssoFilter() {
         CompositeFilter filter = new CompositeFilter();
 
-        OAuth2ClientAuthenticationProcessingFilter faceBookFilter = filterProvider.createFilter("/login/facebook", facebook(), facebookResource());
-        OAuth2ClientAuthenticationProcessingFilter githubFilter = filterProvider.createFilter("/login/github", github(), githubResource());
-        OAuth2ClientAuthenticationProcessingFilter googleFilter = filterProvider.createFilter("/login/google", google(), googleResource());
+        OAuth2ClientAuthenticationProcessingFilter githubFilter = createFilter("/login/github", github(), githubResource());
+        OAuth2ClientAuthenticationProcessingFilter googleFilter = createFilter("/login/google", google(), googleResource());
 
-        List<Filter> filters = new ArrayList<>(Arrays.asList(faceBookFilter, githubFilter, googleFilter));
+        List<Filter> filters = Arrays.asList(githubFilter, googleFilter);
         filter.setFilters(filters);
         return filter;
     }
@@ -98,5 +100,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         registration.setFilter(filter);
         registration.setOrder(-100);
         return registration;
+    }
+
+    private OAuth2ClientAuthenticationProcessingFilter createFilter(String processURL,
+                                                            AuthorizationCodeResourceDetails client,
+                                                            ResourceServerProperties resource) {
+        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(processURL);
+        OAuth2RestTemplate restTemplate = new OAuth2RestTemplate(client, oauth2ClientContext);
+        filter.setRestTemplate(restTemplate);
+        UserInfoTokenServices tokenServices = new UserInfoTokenServices(resource.getUserInfoUri(), client.getClientId());
+        tokenServices.setRestTemplate(restTemplate);
+        filter.setTokenServices(tokenServices);
+        return filter;
     }
 }

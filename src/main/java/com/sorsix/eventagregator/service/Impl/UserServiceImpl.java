@@ -33,13 +33,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> login(Authentication authentication, String requestURI) {
+    public Optional<User> login(Authentication authentication) {
         Map userDetailsMap = convertAuthDetailsToMap(authentication);
         Optional<String> email = Optional.ofNullable((String) userDetailsMap.get("email"));
-        return email.map(mail -> createOrFindUser(mail, userDetailsMap, requestURI));
+        return email.map(mail -> createOrFindUser(mail, userDetailsMap));
     }
 
-    public User createOrFindUser(String mail, Map details, String requestURI) {
+    @Override
+    public User createOrFindUser(String mail, Map details) {
         return userRepository.findById(mail)
                 .map(user -> {
                     logger.info("User has been found {}", user);
@@ -47,14 +48,15 @@ public class UserServiceImpl implements UserService {
                 })
                 .orElseGet(() -> {
                     logger.info("Creating user with OAuth2 Provider Details");
-                    UserDetails userDetails = createUserDetails(details, requestURI);
+                    UserDetails userDetails = createUserDetails(details);
                     User user = new User(mail, userDetails);
                     logger.info("Finished creating user with OAuth2 Provider Details: {}", user);
                     return userRepository.save(user);
                 });
     }
 
-    public UserDetails createUserDetails(Map details, String requestURI) {
+    @Override
+    public UserDetails createUserDetails(Map details) {
         logger.info("Creating user details");
         String name = details.get("name").toString();
         String authId = details.get("id").toString();

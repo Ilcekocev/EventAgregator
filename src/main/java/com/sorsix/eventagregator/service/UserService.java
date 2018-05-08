@@ -14,10 +14,10 @@ public interface UserService {
 
     Optional<User> findUserById(String id);
 
-    Optional<User> login(Authentication authentication, String requestURI);
+    Optional<User> login(Authentication authentication);
 
-    User createOrFindUser(String mail, Map details, String requestURI);
+    User createOrFindUser(String mail, Map details);
 
-    UserDetails createUserDetails(Map details, String requestURI);
+    UserDetails createUserDetails(Map details);
 
 }

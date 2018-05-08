@@ -18,6 +18,7 @@ facebook:
     clientSecret: 7b5348e33daff1330a57cdd60cbb71ce
     accessTokenUri: https://graph.facebook.com/oauth/access_token
     userAuthorizationUri: https://www.facebook.com/dialog/oauth
+    redirect-uri-template: http://localhost:4200/home
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
@@ -32,7 +33,7 @@ github:
     accessTokenUri: https://github.com/login/oauth/access_token
     userAuthorizationUri: https://github.com/login/oauth/authorize
     clientAuthenticationScheme: form
-    score: profile email
+    scope: profile email
   resource:
     userInfoUri: https://api.github.com/user
 
