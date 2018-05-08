@@ -18,7 +18,6 @@ export class LoginComponent implements OnInit {
     return this.userService.loginGithub();
   }
 
-
   ngOnInit() {
   }
 
