@@ -7,15 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/public/users")
@@ -30,13 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/getUser")
-    public ResponseEntity<User> login(Authentication authentication, HttpServletRequest request) {
-        final String authHeader = request.getHeader("Authorization");
-        // logger.info("{}", bearerTokenExtractor.extract(request).getDetails());
-//        logger.info("{}", bearerTokenExtractor.extract(request).isAuthenticated());
-//        logger.info("{}", authentication.isAuthenticated());
-        logger.info("{}", getMap(authentication).toString());
-        logger.info(authHeader);
+    public ResponseEntity<User> login(Authentication authentication) {
         return userService.login(authentication)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.badRequest().build());
@@ -54,10 +45,4 @@ public class UserController {
         return map;
     }
 
-    @RequestMapping("/token")
-    private ResponseEntity<String> getToken(Authentication authentication) {
-        Optional<String> opt = Optional.of((String) getMap(authentication).get("tokenValue"));
-        return opt.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.badRequest().build());
-    }
 }
