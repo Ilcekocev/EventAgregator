@@ -11,9 +11,17 @@ export class HomePageComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   user: any;
+  authenticated: boolean;
 
   ngOnInit() {
     this.getUser();
+    if(this.user == "N/A") {
+      // show a greeting message
+      this.authenticated = false;
+    }
+    else {
+      this.authenticated = true;
+    }
   }
 
   getUser() {
