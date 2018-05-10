@@ -36,10 +36,12 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
-
 } from '@angular/material';
 
-import { FlexLayoutModule } from '@angular/flex-layout';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatDatetimepickerModule} from "@mat-datetimepicker/core";
+import {MatMomentDatetimeModule} from "@mat-datetimepicker/moment";
+
 
 @NgModule({
   exports: [
@@ -79,7 +81,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatMomentDatetimeModule,
+    MatDatetimepickerModule
   ]
 })
 export class MaterialModuleModule { }

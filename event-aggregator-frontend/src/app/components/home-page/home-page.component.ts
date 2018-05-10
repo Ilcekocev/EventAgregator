@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -15,13 +15,7 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
-    if(this.user == "N/A") {
-      // show a greeting message
-      this.authenticated = false;
-    }
-    else {
-      this.authenticated = true;
-    }
+    this.authenticated = this.user != "N/A";
   }
 
   getUser() {
@@ -33,6 +27,7 @@ export class HomePageComponent implements OnInit {
     this.userService.getUser()
       .subscribe(data => {
         console.log(data);
+        localStorage.setItem('email', data.email);
       })
   }
 }

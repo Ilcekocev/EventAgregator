@@ -24,13 +24,14 @@ public class Event {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String externalLink;
+    private boolean emailNotification;
     @ManyToOne
     private User user;
 
     public Event() {
     }
 
-    public Event(String title, Type type, String description, LocalDateTime startTime, LocalDateTime endTime, String externalLink, User user) {
+    public Event(String title, Type type, String description, LocalDateTime startTime, LocalDateTime endTime, String externalLink, User user, boolean emailNotification) {
         this.title = title;
         this.type = type;
         this.description = description;
@@ -38,6 +39,7 @@ public class Event {
         this.endTime = endTime;
         this.externalLink = externalLink;
         this.user = user;
+        this.emailNotification = emailNotification;
     }
 
     public Event(String title, Type type, String description, LocalDateTime startTime, LocalDateTime endTime, User user) {

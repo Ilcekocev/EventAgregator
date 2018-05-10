@@ -7,8 +7,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {
   MatButtonModule,
+  MatCardModule,
+  MatGridListModule,
   MatIconModule,
   MatListModule,
+  MatMenuModule,
   MatNativeDateModule,
   MatSidenavModule,
   MatToolbarModule
@@ -21,6 +24,11 @@ import {LayoutModule} from '@angular/cdk/layout';
 import {HomePageComponent} from './components/home-page/home-page.component';
 import {UserService} from "./services/user.service";
 import {NavBarComponent} from './components/nav-bar/nav-bar.component';
+import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {EventDetailsComponent} from './components/event-details/event-details.component';
+import {EventListComponent} from './components/event-list/event-list.component';
+import {CreateEventComponent} from './components/create-event/create-event.component';
+import {UpdateEventComponent} from './components/update-event/update-event.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +36,11 @@ import {NavBarComponent} from './components/nav-bar/nav-bar.component';
     LoginComponent,
     HomePageComponent,
     NavBarComponent,
+    DashboardComponent,
+    EventDetailsComponent,
+    EventListComponent,
+    CreateEventComponent,
+    UpdateEventComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +57,10 @@ import {NavBarComponent} from './components/nav-bar/nav-bar.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
