@@ -5,17 +5,6 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {
-  MatButtonModule,
-  MatCardModule,
-  MatGridListModule,
-  MatIconModule,
-  MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
-  MatSidenavModule,
-  MatToolbarModule
-} from "@angular/material";
 import {MaterialModuleModule} from "./modules/material-module.module";
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {LoginComponent} from './components/login/login.component'
@@ -28,7 +17,6 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {EventDetailsComponent} from './components/event-details/event-details.component';
 import {EventListComponent} from './components/event-list/event-list.component';
 import {CreateEventComponent} from './components/create-event/create-event.component';
-import {UpdateEventComponent} from './components/update-event/update-event.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +27,7 @@ import {UpdateEventComponent} from './components/update-event/update-event.compo
     DashboardComponent,
     EventDetailsComponent,
     EventListComponent,
-    CreateEventComponent,
-    UpdateEventComponent,
+    CreateEventComponent
   ],
   imports: [
     BrowserModule,
@@ -48,19 +35,10 @@ import {UpdateEventComponent} from './components/update-event/update-event.compo
     FormsModule,
     HttpClientModule,
     MaterialModuleModule,
-    MatNativeDateModule,
     ReactiveFormsModule,
     AngularFontAwesomeModule,
     AppRoutingModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule
+    LayoutModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

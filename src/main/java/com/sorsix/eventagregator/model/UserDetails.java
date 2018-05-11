@@ -19,6 +19,7 @@ public class UserDetails {
     String authId;
     String firstName;
     String lastName;
+    String avatar;
 
     @JsonIgnore
     @OneToOne(mappedBy = "userDetails")
@@ -27,17 +28,18 @@ public class UserDetails {
     public UserDetails() {
     }
 
-    public UserDetails(String authId, String firstName, String lastName) {
+    public UserDetails(String authId, String firstName, String lastName, String avatar) {
         this.authId = authId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.avatar = avatar;
     }
 
-    public static UserDetails createFromMapValues(String authId, String name) {
+    public static UserDetails createFromMapValues(String authId, String name, String avatar) {
         String [] firstAndLastName = name.split("\\s+");
         String firstName = firstAndLastName[0];
         String lastName = firstAndLastName[1];
-        return new UserDetails(authId, firstName, lastName);
+        return new UserDetails(authId, firstName, lastName, avatar);
     }
 
     @Override
@@ -46,6 +48,7 @@ public class UserDetails {
                 .add("authId", authId)
                 .add("firstName", firstName)
                 .add("lastName", lastName)
+                .add("avatar", avatar)
                 .toString();
     }
 }

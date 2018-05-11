@@ -11,22 +11,21 @@ export class HomePageComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   user: any;
-  authenticated: boolean;
 
   ngOnInit() {
     this.getUser();
-    this.authenticated = this.user != "N/A";
   }
 
   getUser() {
-    this.userService.getAuthenticationObject()
+    this.userService.getAuthentication()
       .subscribe(data => {
-        console.log("Printing user: {}", data);
-        this.user = data;
+        console.log("Printing auth: {}", data);
       });
     this.userService.getUser()
       .subscribe(data => {
-        console.log(data);
+        console.log("Printing user {}", data);
+        this.user = data;
+        console.log(this.user);
         localStorage.setItem('email', data.email);
       })
   }

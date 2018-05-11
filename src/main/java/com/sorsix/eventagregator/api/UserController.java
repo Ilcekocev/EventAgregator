@@ -2,7 +2,6 @@ package com.sorsix.eventagregator.api;
 
 import com.sorsix.eventagregator.model.User;
 import com.sorsix.eventagregator.service.UserService;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +33,13 @@ public class UserController {
     }
 
     @GetMapping
-    public Map getMap(Authentication authentication) {
+    public Map convertAuthDetailsToMap(Authentication authentication) {
         logger.info("In getMap");
-        Map<String, String> map = new LinkedHashMap<>();
-        ObjectMapper objectMapper = new ObjectMapper();
         if (authentication != null) {
-            return objectMapper.convertValue(authentication.getDetails(), Map.class);
+            return userService.convertAuthDetailsToMap(authentication);
         }
-        map.put("name", "N/A");
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("email", "N/A");
         return map;
     }
 

@@ -3,8 +3,8 @@ export class Event {
   title: string;
   type: string;
   description: string;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   externalLink: string;
   emailNotification: boolean;
   user: any;

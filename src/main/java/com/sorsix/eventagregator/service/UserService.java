@@ -20,4 +20,6 @@ public interface UserService {
 
     UserDetails createUserDetails(Map details);
 
+    Map convertAuthDetailsToMap(Authentication authentication);
+
 }

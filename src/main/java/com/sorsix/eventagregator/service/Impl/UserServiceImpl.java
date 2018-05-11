@@ -60,18 +60,25 @@ public class UserServiceImpl implements UserService {
         logger.info("Creating user details");
         String name = details.get("name").toString();
         String authId = details.get("id").toString();
-        UserDetails userDetails = UserDetails.createFromMapValues(authId, name);
+        String avatar = extractAvatar(details);
+        logger.info("avatar: {}", avatar);
+        UserDetails userDetails = UserDetails.createFromMapValues(authId, name, avatar);
         logger.info("Saving user details for {}", name);
         return userDetailsRepository.save(userDetails);
     }
 
-    private Map convertAuthDetailsToMap(Authentication authentication) {
+    public Map convertAuthDetailsToMap(Authentication authentication) {
         OAuth2Authentication auth = (OAuth2Authentication) authentication;
         ObjectMapper mapper = new ObjectMapper();
-        Map map =mapper.convertValue(auth.getUserAuthentication().getDetails(), Map.class);
-        logger.info("{}", map);
+        Map map = mapper.convertValue(auth.getUserAuthentication().getDetails(), Map.class);
+        logger.info("Printing authentication map: {}", map);
         return map;
     }
 
-
+    private String extractAvatar(Map details) {
+        Optional<?> avatar = Optional.ofNullable(details.get("picture"));
+        return avatar
+                .map(String.class::cast)
+                .orElseGet(() -> (String) details.get("avatar_url"));
+    }
 }
