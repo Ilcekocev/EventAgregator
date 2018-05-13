@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-header>
+    <button *ngIf="!showEditMenu" mat-icon-button matSuffix matTooltip="Click here to edit your event" [matTooltipPosition]="'above'" align="right" (click)="openOrCloseEditMenu()" color="primary"><mat-icon>edit</mat-icon></button>
+    <button *ngIf="showEditMenu" mat-icon-button matSuffix matTooltip="Click here to edit your event" [matTooltipPosition]="'above'" align="right" (click)="openOrCloseEditMenu()" color="warn"><mat-icon>close</mat-icon></button>
+   <mat-card-title matTooltip="Your event's title" [matTooltipPosition]="'left'">{{event.title}}</mat-card-title>
+   <mat-card-subtitle>This is a {{event.type.toLowerCase()}} event</mat-card-subtitle>
+   <mat-card-subtitle matTooltip="Your event's description" [matTooltipPosition]="'left'">{{event.description}}</mat-card-subtitle>
+    <mat-card-subtitle matTooltip="Your event's start time" [matTooltipPosition]="'left'">Starts: {{event.startTime}}</mat-card-subtitle>
+    <mat-card-subtitle matTooltip="Your event's end time" [matTooltipPosition]="'left'">Ends: {{event.endTime}}</mat-card-subtitle>
+ </mat-card-header>
+  <mat-card-content *ngIf="showEditMenu">
+    <app-create-event [event]="event" [create]="false"></app-create-event>
+  </mat-card-content>
+</mat-card>

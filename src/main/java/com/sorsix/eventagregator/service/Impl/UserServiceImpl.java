@@ -76,8 +76,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private String extractAvatar(Map details) {
-        Optional<?> avatar = Optional.ofNullable(details.get("picture"));
-        return avatar
+        return Optional.ofNullable(details.get("picture"))
                 .map(String.class::cast)
                 .orElseGet(() -> (String) details.get("avatar_url"));
     }

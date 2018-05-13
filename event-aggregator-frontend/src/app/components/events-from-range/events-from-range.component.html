@@ -1,0 +1,16 @@
+<div fxLayout="row" fxLayoutAlign="center center" >
+  <form [formGroup]="dates" >
+    <mat-form-field>
+      <input matInput [matDatepicker]="startDate" placeholder="Choose a starting date" formControlName="startDate">
+      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+      <mat-datepicker touchUi="true" #startDate></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="endDate" placeholder="Choose a ending date" formControlName="endDate">
+      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+      <mat-datepicker touchUi="true" #endDate></mat-datepicker>
+    </mat-form-field>
+    <button mat-icon-button (click)="onSubmit()" [disabled]="dates.invalid" color="primary"><mat-icon>skip_next</mat-icon></button>
+  </form>
+</div>
+<app-event-list *ngIf="startDateString !== undefined && endDateString !== undefined" [startDate]="startDate" [endDate]="endDate"></app-event-list>

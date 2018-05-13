@@ -17,6 +17,7 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {EventDetailsComponent} from './components/event-details/event-details.component';
 import {EventListComponent} from './components/event-list/event-list.component';
 import {CreateEventComponent} from './components/create-event/create-event.component';
+import {EventsFromRangeComponent} from "./components/events-from-range/events-from-range.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {CreateEventComponent} from './components/create-event/create-event.compo
     DashboardComponent,
     EventDetailsComponent,
     EventListComponent,
-    CreateEventComponent
+    CreateEventComponent,
+    EventsFromRangeComponent
   ],
   imports: [
     BrowserModule,

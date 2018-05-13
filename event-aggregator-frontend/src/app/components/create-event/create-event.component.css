@@ -1,0 +1,17 @@
+.myContainer form > * {
+  margin: 5px 0;
+}
+.myContainer .mat-radio-button {
+  margin: 0 5px;
+}
+
+.myContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
