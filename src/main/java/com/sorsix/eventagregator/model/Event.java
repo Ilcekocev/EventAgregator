@@ -1,6 +1,7 @@
 package com.sorsix.eventagregator.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import com.sorsix.eventagregator.model.enums.Type;
 import lombok.Getter;
@@ -28,6 +29,8 @@ public class Event {
     private LocalDateTime endTime;
     private String externalLink;
     private boolean emailNotification;
+    @JsonIgnore
+    private boolean notified;
     @ManyToOne
     private User user;
 
@@ -43,6 +46,7 @@ public class Event {
         this.externalLink = externalLink;
         this.user = user;
         this.emailNotification = emailNotification;
+        this.notified = false;
     }
 
     public Event(String title, Type type, String description, LocalDateTime startTime, LocalDateTime endTime, User user) {
