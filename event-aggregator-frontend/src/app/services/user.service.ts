@@ -11,14 +11,6 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  loginGoogle() {
-    return this.http.get(`${this.apiPath}/login/google`)
-  }
-
-  loginGithub() {
-    return this.http.get(`${this.apiPath}/login/github`)
-  }
-
   getAuthentication(): Observable<any> {
     return this.http.get<any>("/api/public/users")
   }
@@ -27,8 +19,5 @@ export class UserService {
     return this.http.get<any>("/api/public/users/getUser")
   }
 
-  getToken(): Observable<string> {
-    return this.http.get<string>("http://localhost:8080/users/token");
-  }
 
 }

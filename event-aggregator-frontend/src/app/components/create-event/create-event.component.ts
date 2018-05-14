@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Event} from "../../model/Event";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as moment from 'moment';
+import {User} from "../../model/User";
+import {EventService} from "../../services/event.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-create-event',
@@ -16,9 +19,13 @@ export class CreateEventComponent implements OnInit {
   create: boolean;
 
   @Input()
+  user: User;
+
+  @Input()
   event: Event;
 
-  constructor(private fb: FormBuilder) { }
+
+  constructor(private fb: FormBuilder, private eventService: EventService, private userService: UserService) { }
 
   ngOnInit() {
    if(this.create) {
@@ -55,14 +62,20 @@ export class CreateEventComponent implements OnInit {
   }
 
   submitForm() {
-    const formData = this.buildFormData();
+    this.bindFormDataToEvent();
     if(this.create) {
-      //eventService.addNewEvent(formData, user.email);
-      console.log("creating event");
+      this.eventService.createEvent(this.event).subscribe(data => {
+        console.log("data: {}",data);
+        this.event = data
+      });
+      console.log("creating event {}",this.event);
     }
     else {
-      //eventService.editEvent(formData, event.id);
-      console.log("editing event");
+      console.log("updating event {}", this.event);
+      this.eventService.updateEvent(this.event).subscribe(data => {
+        this.event = data;
+      console.log("edited event {}", this.event);
+      });
     }
   }
 
@@ -71,17 +84,19 @@ export class CreateEventComponent implements OnInit {
     console.log("deleting event");
   }
 
-  buildFormData(): FormData {
-    let formData = new FormData();
+  bindFormDataToEvent() {
+    if(this.create) {
+      this.event = new Event();
+    }
     let formValue = this.options.value;
-    formData.set('title', formValue.title);
-    formData.set('description', formValue.description);
-    formData.set('type', formValue.type.toUpperCase());
-    formData.set('startTime', moment(formValue.startTime).toISOString());
-    formData.set('endTime', moment(formValue.endTime).toISOString());
-    formData.set('externalLink', formValue.externalLink);
-    formData.set('emailNotification', formValue.emailNotification);
-    return formData;
+    this.event.title = formValue.title;
+    this.event.description = formValue.description;
+    this.event.type = formValue.type.toUpperCase();
+    this.event.startTime =  moment(formValue.startTime).format('YYYY-MM-DDTHH:mm:ss');
+    this.event.endTime =  moment(formValue.endTime).format('YYYY-MM-DDTHH:mm:ss');
+    this.event.externalLink = formValue.externalLink;
+    this.event.emailNotification = formValue.emailNotification;
+    this.event.user = this.user;
   }
 
 }

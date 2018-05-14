@@ -1,4 +1,4 @@
-<mat-grid-list [cols]="calculateColumns()" rowHeight="700">
+<mat-grid-list [cols]="calculateColumns()" rowHeight="700" *ngIf="events != undefined">
   <mat-grid-tile *ngFor="let event of events">
     <app-event-details [event]="event"></app-event-details>
   </mat-grid-tile>

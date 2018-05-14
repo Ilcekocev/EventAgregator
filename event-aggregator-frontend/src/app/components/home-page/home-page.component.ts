@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
+import {AuthService} from "../../services/auth.service";
+import {User} from "../../model/User";
 
 @Component({
   selector: 'app-home-page',
@@ -8,12 +10,13 @@ import {UserService} from "../../services/user.service";
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private authService: AuthService) { }
 
-  user: any;
+  user: User;
 
   ngOnInit() {
     this.getUser();
+    this.authService.isUserAuth();
   }
 
   getUser() {
@@ -29,4 +32,10 @@ export class HomePageComponent implements OnInit {
         localStorage.setItem('email', data.email);
       })
   }
+
+  sendUser() {
+    this.authService.sendUser(this.user)
+      .subscribe(data => console.log(data));
+  }
+
 }

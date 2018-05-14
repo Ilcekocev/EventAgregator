@@ -1,6 +1,7 @@
 package com.sorsix.eventagregator.service;
 
 import com.sorsix.eventagregator.model.Event;
+import com.sorsix.eventagregator.model.enums.Type;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,14 +16,16 @@ public interface EventService {
 
     Event createRepetitiveEvent(Event event);
 
+    Optional<Event> updateEvent(Event updatedEvent);
+
     void deleteEvent(Long id);
 
     Optional<Event> findEventById(Long id);
 
-    //This method needs to be in userRepisitiry
-//    List<Event> findEventsForUser(User user);
+    List<Event> findEventsForUserWithType(String userId, Type type);
 
     List<Event> findEventsByDate(LocalDateTime startTime, LocalDateTime endTime);
+
 
     List<Event> getAllEvents();
 

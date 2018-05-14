@@ -36,12 +36,16 @@ public class UserServiceImpl implements UserService {
     public Optional<User> login(Authentication authentication) {
         Map userDetailsMap = convertAuthDetailsToMap(authentication);
         Optional<String> email = Optional.ofNullable((String) userDetailsMap.get("email"));
-        return email.map(mail -> createOrFindUser(mail, userDetailsMap));
+        return Optional.ofNullable(email.map(mail -> createOrFindUser(mail, userDetailsMap))
+                .orElseGet(() -> {
+                    String name = authentication.getName();
+                    return createOrFindUser(name, userDetailsMap);
+                }));
     }
 
     @Override
-    public User createOrFindUser(String mail, Map details) {
-        return userRepository.findById(mail)
+    public User createOrFindUser(String id, Map details) {
+        return userRepository.findById(id)
                 .map(user -> {
                     logger.info("User has been found {}", user);
                     return user;
@@ -49,7 +53,7 @@ public class UserServiceImpl implements UserService {
                 .orElseGet(() -> {
                     logger.info("Creating user with OAuth2 Provider Details");
                     UserDetails userDetails = createUserDetails(details);
-                    User user = new User(mail, userDetails);
+                    User user = new User(id, userDetails);
                     logger.info("Finished creating user with OAuth2 Provider Details: {}", user);
                     return userRepository.save(user);
                 });
@@ -59,10 +63,9 @@ public class UserServiceImpl implements UserService {
     public UserDetails createUserDetails(Map details) {
         logger.info("Creating user details");
         String name = details.get("name").toString();
-        String authId = details.get("id").toString();
         String avatar = extractAvatar(details);
         logger.info("avatar: {}", avatar);
-        UserDetails userDetails = UserDetails.createFromMapValues(authId, name, avatar);
+        UserDetails userDetails = new UserDetails(name, avatar);
         logger.info("Saving user details for {}", name);
         return userDetailsRepository.save(userDetails);
     }
@@ -80,4 +83,5 @@ public class UserServiceImpl implements UserService {
                 .map(String.class::cast)
                 .orElseGet(() -> (String) details.get("avatar_url"));
     }
+
 }

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Event} from "../../model/Event";
 import * as moment from 'moment';
+import {EventService} from "../../services/event.service";
 
 @Component({
   selector: 'app-event-list',
@@ -19,13 +20,15 @@ export class EventListComponent implements OnInit {
   @Input()
   thisWeek: boolean;
 
-  constructor() { }
+  constructor(private eventService: EventService) { }
 
   ngOnInit() {
-    //sega za sega e mock
-    this.createEvents();
     if(this.thisWeek) {
-      //fetch eventService.getEventsForThisWeek()
+      this.eventService.getAllPrivateEvents()
+        .subscribe((data: Event[]) => {
+          console.log(data);
+          this.events = data;
+        });
     }
     else if (this.startDate != undefined && this.endDate != undefined) {
       //fetch eventService.getEventsBetweenDates(startDate, endDate);
@@ -33,40 +36,13 @@ export class EventListComponent implements OnInit {
     else if (this.numberOfDays != undefined) {
       //fetch eventsService.getEventsForNextDays(numberOfDays) -- vrakja od denes do naredni denovi
     }
+
   }
 
   calculateColumns(): number {
-    if(this.events.length >= 7)
-      return 7;
+    if(this.events.length >= 6)
+      return 6;
     return this.events.length;
   }
-
-  createEvents() {
-    let event: Event = {
-      description: 'Mock description',
-      endTime: this.convertFromIso(),
-      startTime: this.convertFromIso(),
-      title: 'Mock title',
-      externalLink: 'Mock link',
-      id: 1,
-      type: 'PRIVATE',
-      emailNotification: true,
-      user: 'Damjan Trickovik'
-    };
-    this.events = [
-      event,
-      event,
-      event,
-      event,
-      event,
-      event,
-      event
-    ]
-    //replace with
-  }
-
-    convertFromIso(): string {
-      return moment('05/01/2018 11:50 PM').toISOString();
-    }
 
 }

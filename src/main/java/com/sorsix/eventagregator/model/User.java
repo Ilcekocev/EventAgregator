@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 public class User {
     @Id
-    String email;
+    String id;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Event> privateEvents;
@@ -25,14 +25,14 @@ public class User {
     }
 
     public User(String email, UserDetails userDetails) {
-        this.email = email;
+        this.id = email;
         this.userDetails = userDetails;
     }
 
     @Override
     public String toString() {
         return com.google.common.base.Objects.toStringHelper(this)
-                .add("email", email)
+                .add("email", id)
                 .add("userDetails", userDetails)
                 .toString();
     }

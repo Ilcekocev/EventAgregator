@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import com.sorsix.eventagregator.model.enums.Type;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,7 +22,9 @@ public class Event {
     private String title;
     private Type type;
     private String description;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime startTime;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime endTime;
     private String externalLink;
     private boolean emailNotification;

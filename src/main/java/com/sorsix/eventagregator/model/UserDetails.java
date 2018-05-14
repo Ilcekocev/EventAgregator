@@ -16,9 +16,7 @@ import javax.persistence.Table;
 @Setter
 public class UserDetails {
     @Id
-    String authId;
-    String firstName;
-    String lastName;
+    String name;
     String avatar;
 
     @JsonIgnore
@@ -28,26 +26,16 @@ public class UserDetails {
     public UserDetails() {
     }
 
-    public UserDetails(String authId, String firstName, String lastName, String avatar) {
-        this.authId = authId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public UserDetails(String name, String avatar) {
+        this.name = name;
         this.avatar = avatar;
     }
 
-    public static UserDetails createFromMapValues(String authId, String name, String avatar) {
-        String [] firstAndLastName = name.split("\\s+");
-        String firstName = firstAndLastName[0];
-        String lastName = firstAndLastName[1];
-        return new UserDetails(authId, firstName, lastName, avatar);
-    }
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("authId", authId)
-                .add("firstName", firstName)
-                .add("lastName", lastName)
+                .add("name", name)
                 .add("avatar", avatar)
                 .toString();
     }

@@ -5,6 +5,6 @@
 <app-events-from-range></app-events-from-range>
 
 <h3 fxLayout="row" fxLayoutAlign="center center" class="mat-h3">Create a new event</h3>
-  <div fxLayout="row" fxLayoutAlign="center center"><app-create-event [create]="true"></app-create-event></div>
+  <div fxLayout="row" fxLayoutAlign="center center"><app-create-event [create]="true" [user]="user"></app-create-event></div>
 
-<button mat-icon-button ></button>
+<button (click)="getMock()" >Click</button>
