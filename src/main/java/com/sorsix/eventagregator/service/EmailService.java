@@ -7,7 +7,7 @@ import java.util.concurrent.Future;
 
 public interface EmailService {
 
-    Future<String> sendEmail(Event event);
+    void sendEmail(Event event);
 
     SimpleMailMessage createEmail(Event event);
 }

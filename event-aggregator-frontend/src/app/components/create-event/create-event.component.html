@@ -1,76 +1,77 @@
-<mat-card >
-  <mat-card-header>
-    <mat-card-title *ngIf="create">Create event</mat-card-title>
-    <mat-card-title *ngIf="!create">Edit event</mat-card-title>
-  </mat-card-header>
+<div fxLayout="row" fxLayoutAlign="center center" >
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title *ngIf="create">Create event</mat-card-title>
+      <mat-card-title *ngIf="!create">Edit event</mat-card-title>
+    </mat-card-header>
 
-  <form [formGroup]="options" class="myContainer">
-    <label>Event type</label>
-   <div>
-     <mat-radio-group formControlName="type">
-       <mat-radio-button value="private" >Private </mat-radio-button>
-       <mat-radio-button value="public" >Public</mat-radio-button>
-     </mat-radio-group>
-   </div>
+    <form [formGroup]="options" class="myContainer">
+      <label>Event type</label>
+      <div>
+        <mat-radio-group formControlName="type">
+          <mat-radio-button value="private" >Private </mat-radio-button>
+          <mat-radio-button value="public" >Public</mat-radio-button>
+        </mat-radio-group>
+      </div>
 
-    <label>E-mail notifications</label>
-  <div>
-    <mat-radio-group formControlName="emailNotification">
-      <mat-radio-button value="true">True</mat-radio-button>
-      <mat-radio-button value="false">False</mat-radio-button>
-    </mat-radio-group>
-  </div>
-     <div>
-       <mat-form-field>
-         <input matInput placeholder="Your event's description" formControlName="description">
-         <button mat-button matSuffix mat-icon-button (click)="options.get('description').reset('')"><mat-icon>close</mat-icon></button>
-         <mat-error *ngIf="options.get('description').hasError('required')">Description is <strong>required</strong></mat-error>
-       </mat-form-field>
+      <label>E-mail notifications</label>
+      <div>
+        <mat-radio-group formControlName="emailNotification">
+          <mat-radio-button value="true">True</mat-radio-button>
+          <mat-radio-button value="false">False</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Your event's description" formControlName="description">
+          <button mat-button matSuffix mat-icon-button (click)="options.get('description').reset('')"><mat-icon>close</mat-icon></button>
+          <mat-error *ngIf="options.get('description').hasError('required')">Description is <strong>required</strong></mat-error>
+        </mat-form-field>
 
-     </div>
-    <div>
-      <mat-form-field>
-        <input matInput placeholder="Your event's title"  formControlName="title">
-        <button mat-button matSuffix mat-icon-button (click)="options.get('title').reset('')"><mat-icon>close</mat-icon></button>
-        <mat-error *ngIf="options.get('title').hasError('required')">Title is <strong>required</strong></mat-error>
-      </mat-form-field>
-    </div>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Your event's title"  formControlName="title">
+          <button mat-button matSuffix mat-icon-button (click)="options.get('title').reset('')"><mat-icon>close</mat-icon></button>
+          <mat-error *ngIf="options.get('title').hasError('required')">Title is <strong>required</strong></mat-error>
+        </mat-form-field>
+      </div>
 
-   <div>
-     <mat-form-field>
-       <input matInput placeholder="External link" formControlName="externalLink">
-       <button mat-button matSuffix mat-icon-button (click)="options.get('externalLink').reset('')"><mat-icon>close</mat-icon></button>
-     </mat-form-field>
-   </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="External link" formControlName="externalLink">
+          <button mat-button matSuffix mat-icon-button (click)="options.get('externalLink').reset('')"><mat-icon>close</mat-icon></button>
+        </mat-form-field>
+      </div>
 
-    <div>
-      <mat-form-field>
-        <mat-placeholder>Start time picker</mat-placeholder>
-        <mat-datetimepicker-toggle [for]="startTimePicker" matSuffix></mat-datetimepicker-toggle>
-        <mat-datetimepicker #startTimePicker type="datetime" touchUi="true" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-        <input matInput formControlName="startTime" [matDatetimepicker]="startTimePicker" required autocomplete="false">
-        <mat-error *ngIf="options.get('startTime').hasError('required')">Start time is <strong>required</strong></mat-error>
-      </mat-form-field>
-    </div>
+      <div>
+        <mat-form-field>
+          <mat-placeholder>Start time picker</mat-placeholder>
+          <mat-datetimepicker-toggle [for]="startTimePicker" matSuffix></mat-datetimepicker-toggle>
+          <mat-datetimepicker #startTimePicker type="datetime" touchUi="true" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+          <input matInput formControlName="startTime" [matDatetimepicker]="startTimePicker" required autocomplete="false">
+          <mat-error *ngIf="options.get('startTime').hasError('required')">Start time is <strong>required</strong></mat-error>
+        </mat-form-field>
+      </div>
 
-    <div>
-      <mat-form-field>
-        <mat-placeholder>End time picker</mat-placeholder>
-        <mat-datetimepicker-toggle [for]="endTimePicker" matSuffix></mat-datetimepicker-toggle>
-        <mat-datetimepicker #endTimePicker touchUi="true" type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-        <input matInput formControlName="endTime" [matDatetimepicker]="endTimePicker" required autocomplete="false">
-        <mat-error *ngIf="options.get('endTime').hasError('required')">End time is <strong>required</strong></mat-error>
-      </mat-form-field>
-    </div>
-  </form>
-  <mat-card-actions align="center" *ngIf="create">
-    <button mat-icon-button color="primary" (click)="submitForm()" [disabled]="options.invalid">Save event<mat-icon>save</mat-icon></button>
-  </mat-card-actions>
-  <mat-card-actions align="center" *ngIf="!create">
-    <div class="button-row">
-      <button mat-icon-button color="primary" (click)="submitForm()" [disabled]="options.invalid">Update<mat-icon>backup</mat-icon></button>
-      <button mat-icon-button color="warn" (click)="deleteEvent()">Delete<mat-icon>delete</mat-icon></button>
-    </div>
-  </mat-card-actions>
-</mat-card>
-
+      <div>
+        <mat-form-field>
+          <mat-placeholder>End time picker</mat-placeholder>
+          <mat-datetimepicker-toggle [for]="endTimePicker" matSuffix></mat-datetimepicker-toggle>
+          <mat-datetimepicker #endTimePicker touchUi="true" type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+          <input matInput formControlName="endTime" [matDatetimepicker]="endTimePicker" required autocomplete="false">
+          <mat-error *ngIf="options.get('endTime').hasError('required')">End time is <strong>required</strong></mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+    <mat-card-actions align="center" *ngIf="create">
+      <button mat-icon-button color="primary" (click)="submitForm()" [disabled]="options.invalid">Save event<mat-icon>save</mat-icon></button>
+    </mat-card-actions>
+    <mat-card-actions align="center" *ngIf="!create">
+      <div class="button-row">
+        <button mat-icon-button color="primary" (click)="submitForm()" [disabled]="options.invalid">Update<mat-icon>backup</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="deleteEvent()">Delete<mat-icon>delete</mat-icon></button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

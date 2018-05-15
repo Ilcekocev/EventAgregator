@@ -26,8 +26,10 @@ export class EventListComponent implements OnInit {
     if(this.thisWeek) {
       this.eventService.getAllPrivateEvents()
         .subscribe((data: Event[]) => {
-          console.log(data);
-          this.events = data;
+          if(data.length != 0) {
+            console.log(data);
+            this.events = data;
+          }
         });
     }
     else if (this.startDate != undefined && this.endDate != undefined) {

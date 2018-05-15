@@ -11,7 +11,6 @@ import {LoginComponent} from './components/login/login.component'
 import {AppRoutingModule} from "./modules/app-routing.module";
 import {LayoutModule} from '@angular/cdk/layout';
 import {HomePageComponent} from './components/home-page/home-page.component';
-import {UserService} from "./services/user.service";
 import {NavBarComponent} from './components/nav-bar/nav-bar.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {EventDetailsComponent} from './components/event-details/event-details.component';
@@ -45,7 +44,7 @@ import {EventService} from "./services/event.service";
     AppRoutingModule,
     LayoutModule
   ],
-  providers: [UserService,AuthService,AuthGuard,EventService],
+  providers: [AuthService,AuthGuard,EventService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

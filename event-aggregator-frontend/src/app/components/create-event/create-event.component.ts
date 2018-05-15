@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as moment from 'moment';
 import {User} from "../../model/User";
 import {EventService} from "../../services/event.service";
-import {UserService} from "../../services/user.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-create-event',
@@ -18,16 +18,16 @@ export class CreateEventComponent implements OnInit {
   @Input()
   create: boolean;
 
-  @Input()
   user: User;
 
   @Input()
   event: Event;
 
 
-  constructor(private fb: FormBuilder, private eventService: EventService, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private eventService: EventService, private authService: AuthService) { }
 
   ngOnInit() {
+    this.user = this.authService.currentUser;
    if(this.create) {
      this.createForm();
    }
@@ -96,6 +96,7 @@ export class CreateEventComponent implements OnInit {
     this.event.endTime =  moment(formValue.endTime).format('YYYY-MM-DDTHH:mm:ss');
     this.event.externalLink = formValue.externalLink;
     this.event.emailNotification = formValue.emailNotification;
+    console.log(this.user);
     this.event.user = this.user;
   }
 

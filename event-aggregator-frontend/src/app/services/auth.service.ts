@@ -11,39 +11,24 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  authUser: boolean;
-  user: User;
+  currentUser: User;
+  isAuthenticated: boolean;
 
-  getAuthenticationObject() : Observable<any>{
-    return this.http.get<any>("/api/public/users")
-  }
-
-  getUser(): Observable<any> {
-    return this.http.get<any>("/api/public/users/getUser")
+  fetchUserObject(): Observable<User> {
+    return this.http.get<any>("/api/public/users");
   }
 
   getPrincipal(): Observable<any> {
-    return this.http.get<any>("/api/public/users/principal")
+    return this.http.get<any>("/api/public/users/map")
   }
 
-  isUserAuth(): boolean {
+  validateAuthentication(): boolean {
     this.getPrincipal().subscribe(response => {
-      console.log('Making http request !');
-      if (response.name !== undefined && response.name !== 'N/A') {
-        this.authUser = true;
-      } else {
-        this.authUser = false;
-      }
+      console.log('Making http request for getting the mapped principal object!');
+      this.isAuthenticated = response.name !== undefined && response.id !== 'N/A';
     });
-    if (this.authUser !== false && this.authUser !== undefined)
-      return true;
-    else {
-      return false;
-    }
+    return this.isAuthenticated !== false;
   }
 
-  sendUser(user: User): Observable<User> {
-    return this.http.post<User>('/api/public/users/send', user);
-  }
 
 }

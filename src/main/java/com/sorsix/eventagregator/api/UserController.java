@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,49 +21,25 @@ import java.util.Map;
 @RequestMapping("/api/public/users")
 public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     private final UserService userService;
-    private final EventService eventService;
 
-    public UserController(UserService userService, EventService eventService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.eventService = eventService;
     }
 
-    @GetMapping("/getUser")
+    @GetMapping()
     public ResponseEntity<User> login(Authentication authentication) {
         return userService.login(authentication)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.badRequest().build());
     }
 
-    @GetMapping
+    @GetMapping("/map")
     public Map convertAuthDetailsToMap(Authentication authentication) {
-        logger.info("In getMap");
         if (authentication != null) {
             return userService.convertAuthDetailsToMap(authentication);
         }
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("email", "N/A");
-        return map;
-    }
-
-
-    @GetMapping("principal")
-    public ResponseEntity getPrincipal(Principal principal) {
-        if (principal == null) {
-            Map<String, String> map = new LinkedHashMap<>();
-            map.put("name", "N/A");
-            return new ResponseEntity(map, HttpStatus.OK);
-        } else {
-            return new ResponseEntity(principal,HttpStatus.OK);
-        }
-    }
-
-    @PostMapping("/send")
-    public void sendUser(@RequestBody User user) {
-        logger.info("user: {}", user);
+        return Collections.singletonMap("id", "N/A");
     }
 
 }

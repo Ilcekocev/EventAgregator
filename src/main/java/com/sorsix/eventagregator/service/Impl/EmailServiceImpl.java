@@ -27,17 +27,17 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public Future<String> sendEmail(Event event) {
+    public void sendEmail(Event event) {
        SimpleMailMessage simpleMailMessage = createEmail(event);
        logger.info("Trying to send email for event {}", event);
        javaMailSender.send(simpleMailMessage);
-       return new AsyncResult<>("Email has been sent successfully for : " + event);
+       logger.info("Email has been sent");
     }
 
     @Override
     public SimpleMailMessage createEmail(Event event) {
         String subject = String.format("Reminder about your event %s", event.getTitle());
-        Long numberOfMinutes = calculateDifference(LocalDateTime.now(), event.getStartTime());
+        Long numberOfMinutes = calculateDifference(event.getStartTime());
         String emailText = String.format("We would like to remind you that your event %s, with description %s start in %d minutes",
                                                                                                                     event.getTitle(),
                                                                                                                     event.getDescription(),
@@ -50,7 +50,7 @@ public class EmailServiceImpl implements EmailService {
         return email;
     }
 
-    private Long calculateDifference(LocalDateTime now, LocalDateTime then) {
-        return ChronoUnit.MINUTES.between(now, then);
+    private Long calculateDifference(LocalDateTime then) {
+        return ChronoUnit.MINUTES.between(LocalDateTime.now(), then);
     }
 }

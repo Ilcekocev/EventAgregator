@@ -1,10 +1,26 @@
-<h1 fxLayout="row" fxLayoutAlign="center center" class="mat-h1">This week events</h1>
-<app-event-list [thisWeek]="true"></app-event-list>
+  <section fxLayout="row" fxLayoutAlign="center center">
+    <mat-slide-toggle
+      color="primary"
+      (change)="thisWeekToggle = !thisWeekToggle"
+      [checked]="thisWeekToggle">
+      Open this week events
+    </mat-slide-toggle>
 
-<h1 fxLayout="row" fxLayoutAlign="center center" class="mat-h1">Events from range</h1>
-<app-events-from-range></app-events-from-range>
+    <mat-slide-toggle
+      color="primary"
+      (change)="createEventToggle = !createEventToggle"
+      [checked]="createEventToggle">
+      Open menu for creating a new event
+    </mat-slide-toggle>
 
-<h3 fxLayout="row" fxLayoutAlign="center center" class="mat-h3">Create a new event</h3>
-  <div fxLayout="row" fxLayoutAlign="center center"><app-create-event [create]="true" [user]="user"></app-create-event></div>
+    <mat-slide-toggle
+      color="primary"
+      (change)="eventsFromRangeToggle = !eventsFromRangeToggle"
+      [checked]="eventsFromRangeToggle">
+      Open menu for viewing events between dates
+    </mat-slide-toggle>
+  </section>
 
-<button (click)="getMock()" >Click</button>
+  <app-event-list *ngIf="thisWeekToggle" [thisWeek]="true"></app-event-list>
+  <app-create-event [create]="true" *ngIf="createEventToggle"></app-create-event>
+  <app-events-from-range *ngIf="eventsFromRangeToggle"></app-events-from-range>

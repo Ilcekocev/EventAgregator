@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Event} from "../../model/Event";
-import * as moment from "moment";
-import {User} from "../../model/User";
-import {UserService} from "../../services/user.service";
-import {EventService} from "../../services/event.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,23 +7,16 @@ import {EventService} from "../../services/event.service";
 })
 export class DashboardComponent implements OnInit {
 
-  user: User;
-  event: Event;
+  thisWeekToggle: boolean;
+  eventsFromRangeToggle: boolean;
+  createEventToggle: boolean;
 
-  constructor(private userService: UserService,
-              private eventService: EventService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.getUser();
-  }
-
-  getUser() {
-    this.userService.getUser()
-      .subscribe(data => {
-        this.user = data;
-        console.log("Dashbooard - Printing user {}", this.user);
-        localStorage.setItem('id', data.id);
-      })
+    this.thisWeekToggle = false;
+    this.eventsFromRangeToggle = false;
+    this.createEventToggle = false;
   }
 
 }

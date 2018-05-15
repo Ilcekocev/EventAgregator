@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../services/user.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../model/User";
 
@@ -10,32 +9,18 @@ import {User} from "../../model/User";
 })
 export class HomePageComponent implements OnInit {
 
-  constructor(private userService: UserService, private authService: AuthService) { }
-
   user: User;
 
+  constructor(private authService: AuthService) { }
+
   ngOnInit() {
-    this.getUser();
-    this.authService.isUserAuth();
-  }
-
-  getUser() {
-    this.userService.getAuthentication()
-      .subscribe(data => {
-        console.log("Printing auth: {}", data);
-      });
-    this.userService.getUser()
-      .subscribe(data => {
-        console.log("Printing user {}", data);
-        this.user = data;
-        console.log(this.user);
-        localStorage.setItem('email', data.email);
-      })
-  }
-
-  sendUser() {
-    this.authService.sendUser(this.user)
-      .subscribe(data => console.log(data));
+   if(this.authService.validateAuthentication())
+     this.authService.fetchUserObject()
+       .subscribe((data: User) => {
+         console.log("Printing the fetched user {}", data);
+         this.authService.currentUser = data;
+         this.user = data;
+       });
   }
 
 }
