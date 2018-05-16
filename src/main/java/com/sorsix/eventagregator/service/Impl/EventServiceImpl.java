@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -26,22 +25,14 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event createEvent(Event event) {
-        return eventRepository.save(event);
-    }
-
-    @Override
-    public Event createRepetitiveEvent(Event event) {
+        logger.info("creating a new event");
         return eventRepository.save(event);
     }
 
     @Override
     public void deleteEvent(Long id) {
+        logger.info("Deleting event with id: {}", id);
         eventRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<Event> findEventById(Long id) {
-        return eventRepository.findById(id);
     }
 
     @Override
@@ -51,13 +42,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findEventsByDate(LocalDateTime startTime, LocalDateTime endTime) {
-        return eventRepository.findEventByStartTimeAndEndTime(startTime, endTime);
-    }
-
-    @Override
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public List<Event> findEventsBetween(String userId, LocalDateTime startTime, LocalDateTime endTime) {
+        return eventRepository.findAllByUserIdAndStartTimeBetween(userId, startTime, endTime);
     }
 
     @Override
@@ -66,8 +52,12 @@ public class EventServiceImpl implements EventService {
                 .map(event -> {
                     event = updatedEvent;
                     event.setUser(updatedEvent.getUser());
-                    logger.info("Event user: {}", updatedEvent.getUser());
                     return eventRepository.save(event);
                 });
+    }
+
+    @Override
+    public List<Event> findEventsForThisWeeK(String userId) {
+        return null;
     }
 }

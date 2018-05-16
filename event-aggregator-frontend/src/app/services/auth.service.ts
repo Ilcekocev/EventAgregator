@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
 import {User} from "../model/User";
@@ -9,13 +9,14 @@ import {User} from "../model/User";
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   currentUser: User;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean = false;
 
-  fetchUserObject(): Observable<User> {
-    return this.http.get<any>("/api/public/users");
+  fetchUserObject(): Observable<any> {
+    return this.http.get<User>("/api/public/users");
   }
 
   getPrincipal(): Observable<any> {
@@ -27,8 +28,12 @@ export class AuthService {
       console.log('Making http request for getting the mapped principal object!');
       this.isAuthenticated = response.name !== undefined && response.id !== 'N/A';
     });
-    return this.isAuthenticated !== false;
+    if(this.isAuthenticated != false) {
+      this.fetchUserObject()
+        .subscribe(data => this.currentUser = data);
+      return true;
+    }
+    return false;
   }
-
 
 }

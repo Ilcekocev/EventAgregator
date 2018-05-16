@@ -1,7 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Event} from "../../model/Event";
-import * as moment from 'moment';
 import {EventService} from "../../services/event.service";
+import {AuthService} from "../../services/auth.service";
+import {Subscription} from "rxjs/Subscription";
+import 'rxjs/add/operator/debounceTime';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-event-list',
@@ -10,35 +13,66 @@ import {EventService} from "../../services/event.service";
 })
 export class EventListComponent implements OnInit {
 
-  events: Event[];
+  events: Event[] = undefined;
   @Input()
   startDate: string;
   @Input()
   endDate: string;
   @Input()
-  numberOfDays: number;
-  @Input()
   thisWeek: boolean;
+  numberOfColumns: number;
+  userId: string;
 
-  constructor(private eventService: EventService) { }
+  private deleteSubscription: Subscription;
+  private datesChangeSubscription: Subscription;
+  private observableFromService: Observable<Event[]>;
+
+
+  constructor(private eventService: EventService,
+              private authService: AuthService) { }
 
   ngOnInit() {
+    console.log('created');
+    this.userId = this.authService.currentUser.id;
     if(this.thisWeek) {
-      this.eventService.getAllPrivateEvents()
-        .subscribe((data: Event[]) => {
-          if(data.length != 0) {
-            console.log(data);
-            this.events = data;
-          }
-        });
+      this.observableFromService = this.eventService.fetchAllPrivateEvents(this.userId);
     }
     else if (this.startDate != undefined && this.endDate != undefined) {
-      //fetch eventService.getEventsBetweenDates(startDate, endDate);
+      this.observableFromService = this.createObservableBetweenDates();
     }
-    else if (this.numberOfDays != undefined) {
-      //fetch eventsService.getEventsForNextDays(numberOfDays) -- vrakja od denes do naredni denovi
-    }
+    this.fetchData();
+    this.deletingSubscription();
+    this.onDatesChangesSubscription();
+  }
 
+  createObservableBetweenDates(): Observable<Event[]> {
+    return this.eventService.fetchAllBetweenDates(this.startDate, this.endDate, this.userId);
+  }
+
+  fetchData() {
+    this.observableFromService.subscribe(data => {
+      this.events = data;
+      console.log("data: {}", this.events);
+      this.numberOfColumns = this.calculateColumns();
+      console.log("Number of columns", this.numberOfColumns);
+    });
+  }
+
+  deletingSubscription() {
+    this.deleteSubscription = this.eventService.onDeleted
+      .debounceTime(200)
+      .subscribe(() => this.fetchData());
+  }
+
+  onDatesChangesSubscription() {
+    this.datesChangeSubscription = this.eventService.onDateChange
+      .subscribe((array) => {
+        this.startDate = array[0];
+        this.endDate = array[1];
+        console.log("received data; changed dates = {}", array);
+        this.observableFromService = this.createObservableBetweenDates();
+        this.fetchData();
+      })
   }
 
   calculateColumns(): number {

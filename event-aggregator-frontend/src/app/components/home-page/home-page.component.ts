@@ -9,18 +9,16 @@ import {User} from "../../model/User";
 })
 export class HomePageComponent implements OnInit {
 
-  user: User;
+  currentUser: User;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-   if(this.authService.validateAuthentication())
-     this.authService.fetchUserObject()
-       .subscribe((data: User) => {
-         console.log("Printing the fetched user {}", data);
-         this.authService.currentUser = data;
-         this.user = data;
-       });
+    if(this.authService.validateAuthentication()) {
+      console.log("Auth: {}\n Here: {}", this.authService.currentUser, this.currentUser);
+      this.currentUser = this.authService.currentUser;
+      console.log("Auth: {}\n Here: {}", this.authService.currentUser, this.currentUser);
+    }
   }
 
 }

@@ -1,10 +1,10 @@
 <div fxLayoutAlign="center center" fxLayout="column">
-  <div *ngIf="user !== undefined">
-    <mat-card>
+  <div *ngIf="currentUser != undefined">
+    <mat-card >
       <mat-card-header>
-        <div mat-card-avatar><img class="mat-card-avatar avatar" src="{{user.userDetails.avatar}}"></div>
+        <div mat-card-avatar><img class="mat-card-avatar avatar" src="{{currentUser.userDetails.avatar}}"></div>
         <mat-card-title>Welcome</mat-card-title>
-        <mat-card-subtitle>{{user.userDetails.name}}</mat-card-subtitle>
+        <mat-card-subtitle>{{currentUser.userDetails.name}}</mat-card-subtitle>
       </mat-card-header>
       <img mat-card-image src="https://4dane94f01emxbo733yxewhi-wpengine.netdna-ssl.com/wp-content/uploads/2017/07/tradeshows_comprehensive-event-mgmt.gif" alt="Events" fxFlex="80%" >
       <mat-card-content>
@@ -20,7 +20,7 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <div *ngIf="user === undefined">
+  <div *ngIf="currentUser == undefined">
     <mat-card>
       <mat-card-header>
         <div mat-card-avatar class="anonymous-avatar-image avatar"></div>

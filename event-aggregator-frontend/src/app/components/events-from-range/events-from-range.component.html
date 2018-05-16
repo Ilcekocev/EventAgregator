@@ -13,4 +13,4 @@
     <button mat-icon-button (click)="onSubmit()" [disabled]="dates.invalid" color="primary"><mat-icon>skip_next</mat-icon></button>
   </form>
 </div>
-<app-event-list *ngIf="startDateString !== undefined && endDateString !== undefined" [startDate]="startDate" [endDate]="endDate"></app-event-list>
+<app-event-list *ngIf="startDateString !== undefined && endDateString !== undefined" [startDate]="startDateString" [endDate]="endDateString"></app-event-list>

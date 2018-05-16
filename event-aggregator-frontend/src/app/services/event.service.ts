@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHandler} from "@angular/common/http";
+import {EventEmitter, Injectable} from '@angular/core';
+import {HttpClient, HttpHandler, HttpParams} from "@angular/common/http";
 import {Event} from "../model/Event";
-import {User} from "../model/User";
 import {Observable} from "rxjs/Rx";
 
 @Injectable({
@@ -9,29 +8,40 @@ import {Observable} from "rxjs/Rx";
 })
 export class EventService {
 
-  constructor(private http: HttpClient) { }
+  onDeleted = new EventEmitter<boolean>();
+  onDateChange = new EventEmitter<string[]>();
+
+  constructor(private http: HttpClient) {
+  }
 
   createEvent(event: Event): Observable<Event> {
     return this.http.post<Event>("/api/events", event);
   }
 
-  getAllPrivateEvents(): Observable<Event[]> {
-   return this.http.get<Event[]>(`/api/events/private/${localStorage.getItem('id')}`);
+  fetchAllPrivateEvents(email: string): Observable<Event[]> {
+    return this.http.get<Event[]>(`/api/events/private/${email}`);
   }
 
-  getMockEvent(): Observable<Event> {
-    return this.http.get<Event>('/api/events/mock');
+  fetchAllBetweenDates(start: string, end: string, id: string): Observable<Event[]> {
+    let params = {
+      startTime: start,
+      endTime: end,
+      id: id
+    };
+    console.log(params);
+    return this.http.get<Event[]>('/api/events/between', {params: params});
   }
 
   getEvent(id: string) {
-    this.http.get<Event>("/events/"+id);
+    this.http.get<Event>("/events/" + id);
   }
 
-  deleteEvent(id: string) {
-    this.http.delete("/api/events/"+id);
+  deleteEvent(id: number): Observable<any> {
+    return this.http.delete("/api/events/" + id);
   }
 
   updateEvent(event: Event): Observable<Event> {
-    return this.http.patch<Event>("/api/events",event);
+    return this.http.patch<Event>("/api/events", event);
   }
+
 }

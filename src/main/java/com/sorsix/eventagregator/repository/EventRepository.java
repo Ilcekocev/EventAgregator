@@ -12,7 +12,7 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
 
     // List<Event> findAllByUser(User user);
-    List<Event> findEventByStartTimeAndEndTime(LocalDateTime start, LocalDateTime end);
+    List<Event> findAllByUserIdAndStartTimeBetween(String id, LocalDateTime start, LocalDateTime end);
 
     List<Event> findEventsByUserIdAndType(String userId, Type type);
 

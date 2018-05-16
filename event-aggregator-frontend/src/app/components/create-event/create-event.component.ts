@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Event} from "../../model/Event";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as moment from 'moment';
@@ -23,17 +23,17 @@ export class CreateEventComponent implements OnInit {
   @Input()
   event: Event;
 
-
-  constructor(private fb: FormBuilder, private eventService: EventService, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private eventService: EventService, private authService: AuthService) {
+  }
 
   ngOnInit() {
     this.user = this.authService.currentUser;
-   if(this.create) {
-     this.createForm();
-   }
-   else if (!this.create) {
-     this.editForm();
-   }
+    if (this.create) {
+      this.createForm();
+    }
+    else if (!this.create) {
+      this.editForm();
+    }
   }
 
 
@@ -45,7 +45,7 @@ export class CreateEventComponent implements OnInit {
       startTime: ['', Validators.required],
       endTime: ['', Validators.required],
       externalLink: [''],
-      emailNotification:['true']
+      emailNotification: ['true']
     })
   }
 
@@ -57,43 +57,45 @@ export class CreateEventComponent implements OnInit {
       startTime: [this.event.startTime, Validators.required],
       endTime: [this.event.endTime, Validators.required],
       externalLink: [this.event.externalLink],
-      emailNotification:[this.event.emailNotification.toString()]
+      emailNotification: [this.event.emailNotification.toString()]
     })
   }
 
   submitForm() {
     this.bindFormDataToEvent();
-    if(this.create) {
+    if (this.create) {
       this.eventService.createEvent(this.event).subscribe(data => {
-        console.log("data: {}",data);
+        console.log("data: {}", data);
         this.event = data
       });
-      console.log("creating event {}",this.event);
+      console.log("creating event {}", this.event);
     }
     else {
       console.log("updating event {}", this.event);
       this.eventService.updateEvent(this.event).subscribe(data => {
         this.event = data;
-      console.log("edited event {}", this.event);
+        console.log("edited event {}", this.event);
       });
     }
   }
 
   deleteEvent() {
-    //this.eventService.delete(event.id);
-    console.log("deleting event");
+    console.log("deleting event: {}", this.event);
+    this.eventService.deleteEvent(this.event.id)
+      .subscribe();
+    this.eventService.onDeleted.emit(true);
   }
 
   bindFormDataToEvent() {
-    if(this.create) {
+    if (this.create) {
       this.event = new Event();
     }
     let formValue = this.options.value;
     this.event.title = formValue.title;
     this.event.description = formValue.description;
     this.event.type = formValue.type.toUpperCase();
-    this.event.startTime =  moment(formValue.startTime).format('YYYY-MM-DDTHH:mm:ss');
-    this.event.endTime =  moment(formValue.endTime).format('YYYY-MM-DDTHH:mm:ss');
+    this.event.startTime = moment(formValue.startTime).format('YYYY-MM-DDTHH:mm:ss');
+    this.event.endTime = moment(formValue.endTime).format('YYYY-MM-DDTHH:mm:ss');
     this.event.externalLink = formValue.externalLink;
     this.event.emailNotification = formValue.emailNotification;
     console.log(this.user);

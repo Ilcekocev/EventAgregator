@@ -7,7 +7,6 @@ import {DashboardComponent} from "../components/dashboard/dashboard.component";
 import {AuthGuard} from "../guards/auth.guard";
 
 const routes: Routes = [
-  // whatever path redirects to the login page
   {path: '', redirectTo: "home", pathMatch: 'full'},
   {path: 'home', component: HomePageComponent},
   {path: 'login', component: LoginComponent},
@@ -22,4 +21,5 @@ const routes: Routes = [
   declarations: [],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

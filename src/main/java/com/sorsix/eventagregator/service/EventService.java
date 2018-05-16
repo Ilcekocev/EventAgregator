@@ -14,22 +14,14 @@ public interface EventService {
 
     Event createEvent(Event event);
 
-    Event createRepetitiveEvent(Event event);
-
     Optional<Event> updateEvent(Event updatedEvent);
 
     void deleteEvent(Long id);
 
-    Optional<Event> findEventById(Long id);
-
     List<Event> findEventsForUserWithType(String userId, Type type);
 
-    List<Event> findEventsByDate(LocalDateTime startTime, LocalDateTime endTime);
+    List<Event> findEventsBetween(String userId, LocalDateTime startTime, LocalDateTime endTime);
 
-
-    List<Event> getAllEvents();
-
-    //This method needs to be in userRepisitory
-    //List<Event> findForUserByMonth(Long id, Integer month);
+    List<Event> findEventsForThisWeeK(String userId);
 
 }

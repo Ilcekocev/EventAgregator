@@ -86,4 +86,5 @@ import {MatMomentDatetimeModule} from "@mat-datetimepicker/moment";
     MatDatetimepickerModule
   ]
 })
-export class MaterialModuleModule { }
+export class MaterialModuleModule {
+}
