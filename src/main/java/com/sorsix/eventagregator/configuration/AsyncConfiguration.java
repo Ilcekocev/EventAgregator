@@ -43,7 +43,7 @@ public class AsyncConfiguration implements SchedulingConfigurer, AsyncConfigurer
     @Bean
     public ThreadPoolTaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-        taskScheduler.setPoolSize(30);
+        taskScheduler.setPoolSize(4);
         taskScheduler.setThreadNamePrefix("email-sending-task-");
         taskScheduler.setAwaitTerminationSeconds(60);
         taskScheduler.setWaitForTasksToCompleteOnShutdown(true);

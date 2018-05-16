@@ -3,6 +3,7 @@ package com.sorsix.eventagregator.configuration;
 import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.repository.EventRepository;
 import com.sorsix.eventagregator.service.EmailService;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -43,15 +44,16 @@ public class EmailSendingTask {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime nextHour = now.plusHours(1);
         logger.info("Now: {}\nOne hour later: {}", now, nextHour);
+        //replace with findAllByEmailNotificationIsTrueAndNotifiedIsFalseAndStartTimeIsBetween(LocalDateTime before, LocalDateTime then);
         eventRepository.findAllByEmailNotificationIsTrueAndNotifiedIsFalse()
-                                                            .parallelStream()
-                                                            .forEach(each -> {
-                                                                emailService.sendEmail(each);
-                                                                each.setNotified(true);
-                                                                eventRepository.save(each);
-                                                            });
+                .parallelStream()
+                .filter(event -> EmailValidator.getInstance().isValid(event.getUser().getId()))
+                .forEach(each -> {
+                    emailService.sendEmail(each);
+                    each.setNotified(true);
+                    eventRepository.save(each);
+                });
     }
-
 
 
 }

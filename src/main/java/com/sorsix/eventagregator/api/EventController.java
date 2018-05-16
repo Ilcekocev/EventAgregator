@@ -31,6 +31,14 @@ public class EventController {
                 .body(eventService.createEvent(event));
     }
 
+    @PatchMapping
+    public ResponseEntity<Event> updateEvent(@RequestBody Event event) {
+        logger.info("{}", event.getId());
+        return this.eventService.updateEvent(event)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
@@ -42,6 +50,11 @@ public class EventController {
         return eventService.findEventsForUserWithType(id, Type.PRIVATE);
     }
 
+    @GetMapping("/weekly/{id}")
+    public List<Event> getAllEventsForThisWeek(@PathVariable String id) {
+        return eventService.findEventsForThisWeeK(id);
+    }
+
     @GetMapping("/between")
     public List<Event> getAllEventsBetweenDates(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
                                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
@@ -50,12 +63,5 @@ public class EventController {
         return eventService.findEventsBetween(id, startTime, endTime);
     }
 
-    @PatchMapping
-    public ResponseEntity<Event> updateEvent(@RequestBody Event event) {
-        logger.info("{}", event.getId());
-        return this.eventService.updateEvent(event)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
 
 }

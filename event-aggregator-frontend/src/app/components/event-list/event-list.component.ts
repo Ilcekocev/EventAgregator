@@ -35,7 +35,7 @@ export class EventListComponent implements OnInit {
     console.log('created');
     this.userId = this.authService.currentUser.id;
     if(this.thisWeek) {
-      this.observableFromService = this.eventService.fetchAllPrivateEvents(this.userId);
+      this.observableFromService = this.eventService.thisWeekEvents(this.userId);
     }
     else if (this.startDate != undefined && this.endDate != undefined) {
       this.observableFromService = this.createObservableBetweenDates();

@@ -11,13 +11,12 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    // List<Event> findAllByUser(User user);
     List<Event> findAllByUserIdAndStartTimeBetween(String id, LocalDateTime start, LocalDateTime end);
 
     List<Event> findEventsByUserIdAndType(String userId, Type type);
 
-    // List<Event> findAllByUserIdAndStartTimeMonthValue(Long id, Integer month);
     List<Event> findAllByEmailNotificationIsTrueAndNotifiedIsFalse();
+
     List<Event> findAllByEmailNotificationIsTrueAndNotifiedIsFalseAndStartTimeIsBetween(LocalDateTime before, LocalDateTime then);
 }
 

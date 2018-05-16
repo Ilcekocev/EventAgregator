@@ -2,6 +2,7 @@ package com.sorsix.eventagregator.service.Impl;
 
 import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.service.EmailService;
+import com.sorsix.eventagregator.utils.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
@@ -37,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public SimpleMailMessage createEmail(Event event) {
         String subject = String.format("Reminder about your event %s", event.getTitle());
-        Long numberOfMinutes = calculateDifference(event.getStartTime());
+        Long numberOfMinutes = DateTimeUtils.calculateDifference(event.getStartTime());
         String emailText = String.format("We would like to remind you that your event %s, with description %s start in %d minutes",
                                                                                                                     event.getTitle(),
                                                                                                                     event.getDescription(),
@@ -50,7 +51,4 @@ public class EmailServiceImpl implements EmailService {
         return email;
     }
 
-    private Long calculateDifference(LocalDateTime then) {
-        return ChronoUnit.MINUTES.between(LocalDateTime.now(), then);
-    }
 }

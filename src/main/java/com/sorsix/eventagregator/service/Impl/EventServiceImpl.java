@@ -4,6 +4,7 @@ import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.model.enums.Type;
 import com.sorsix.eventagregator.repository.EventRepository;
 import com.sorsix.eventagregator.service.EventService;
+import com.sorsix.eventagregator.utils.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> findEventsForThisWeeK(String userId) {
-        return null;
+        LocalDateTime startOfWeek = DateTimeUtils.getFirstDayOfWeek();
+        LocalDateTime endOfWeek = DateTimeUtils.getLastDayOfWeek();
+        return eventRepository.findAllByUserIdAndStartTimeBetween(userId, startOfWeek, endOfWeek);
     }
 }

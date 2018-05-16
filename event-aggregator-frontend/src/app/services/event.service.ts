@@ -18,8 +18,16 @@ export class EventService {
     return this.http.post<Event>("/api/events", event);
   }
 
-  fetchAllPrivateEvents(email: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`/api/events/private/${email}`);
+  deleteEvent(id: number): Observable<any> {
+    return this.http.delete("/api/events/" + id);
+  }
+
+  updateEvent(event: Event): Observable<Event> {
+    return this.http.patch<Event>("/api/events", event);
+  }
+
+  thisWeekEvents(email: string): Observable<Event[]> {
+    return this.http.get<Event[]>(`/api/events/weekly/${email}`);
   }
 
   fetchAllBetweenDates(start: string, end: string, id: string): Observable<Event[]> {
@@ -32,16 +40,5 @@ export class EventService {
     return this.http.get<Event[]>('/api/events/between', {params: params});
   }
 
-  getEvent(id: string) {
-    this.http.get<Event>("/events/" + id);
-  }
-
-  deleteEvent(id: number): Observable<any> {
-    return this.http.delete("/api/events/" + id);
-  }
-
-  updateEvent(event: Event): Observable<Event> {
-    return this.http.patch<Event>("/api/events", event);
-  }
 
 }
