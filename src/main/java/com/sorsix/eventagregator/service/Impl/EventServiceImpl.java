@@ -49,10 +49,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Optional<Event> updateEvent(Event updatedEvent) {
-       return eventRepository.findById(updatedEvent.getId())
+        return eventRepository.findById(updatedEvent.getId())
                 .map(event -> {
                     event = updatedEvent;
-                    event.setUser(updatedEvent.getUser());
                     return eventRepository.save(event);
                 });
     }
@@ -63,4 +62,5 @@ public class EventServiceImpl implements EventService {
         LocalDateTime endOfWeek = DateTimeUtils.getLastDayOfWeek();
         return eventRepository.findAllByUserIdAndStartTimeBetween(userId, startOfWeek, endOfWeek);
     }
+
 }

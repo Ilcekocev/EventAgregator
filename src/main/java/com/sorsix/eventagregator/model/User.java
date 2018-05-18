@@ -16,7 +16,7 @@ public class User {
     String id;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    List<Event> privateEvents;
+    List<Event> events;
 
     @OneToOne
     UserDetails userDetails;

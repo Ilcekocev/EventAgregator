@@ -3,6 +3,7 @@ package com.sorsix.eventagregator.configuration;
 import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.repository.EventRepository;
 import com.sorsix.eventagregator.service.EmailService;
+import com.sorsix.eventagregator.utils.EmailType;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,11 +50,10 @@ public class EmailSendingTask {
                 .parallelStream()
                 .filter(event -> EmailValidator.getInstance().isValid(event.getUser().getId()))
                 .forEach(each -> {
-                    emailService.sendEmail(each);
+                    emailService.sendEmail(each, EmailType.REMIND);
                     each.setNotified(true);
                     eventRepository.save(each);
                 });
     }
-
 
 }

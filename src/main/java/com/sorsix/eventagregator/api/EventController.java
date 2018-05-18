@@ -39,28 +39,28 @@ public class EventController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        eventService.deleteEvent(id);
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
+        eventService.deleteEvent(eventId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/private/{id}")
-    public List<Event> getAllPrivateEvents(@PathVariable String id) {
-        return eventService.findEventsForUserWithType(id, Type.PRIVATE);
+    @GetMapping("/private/{userId}")
+    public List<Event> getAllPrivateEvents(@PathVariable String userId) {
+        return eventService.findEventsForUserWithType(userId, Type.PRIVATE);
     }
 
-    @GetMapping("/weekly/{id}")
-    public List<Event> getAllEventsForThisWeek(@PathVariable String id) {
-        return eventService.findEventsForThisWeeK(id);
+    @GetMapping("/weekly/{userId}")
+    public List<Event> getAllEventsForThisWeek(@PathVariable String userId) {
+        return eventService.findEventsForThisWeeK(userId);
     }
 
     @GetMapping("/between")
     public List<Event> getAllEventsBetweenDates(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
                                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
-                                                @RequestParam String id) {
+                                                @RequestParam String userId) {
         logger.info("Start time: {}\nEnd time {}", startTime, endTime);
-        return eventService.findEventsBetween(id, startTime, endTime);
+        return eventService.findEventsBetween(userId, startTime, endTime);
     }
 
 
