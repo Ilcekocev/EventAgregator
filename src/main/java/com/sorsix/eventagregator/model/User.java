@@ -16,10 +16,10 @@ public class User {
     String id;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    List<Event> events;
-
+    List<Event> createdEvents;
     @OneToOne
     UserDetails userDetails;
+
 
     public User() {
     }

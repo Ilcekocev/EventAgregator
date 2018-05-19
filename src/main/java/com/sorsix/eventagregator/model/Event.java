@@ -10,9 +10,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "events")
+@Table(name = "createdEvents")
 @Getter
 @Setter
 public class Event {
@@ -33,6 +34,8 @@ public class Event {
     private boolean notified;
     @ManyToOne
     private User user;
+    @OneToMany(mappedBy = "event")
+    private List<InvitedPerson> invitedPerson;
 
     public Event() {
     }

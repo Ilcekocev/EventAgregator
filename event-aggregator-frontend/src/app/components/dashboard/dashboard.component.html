@@ -3,7 +3,7 @@
     color="primary"
     (change)="thisWeekToggle = !thisWeekToggle; createEventToggle = false; eventsFromRangeToggle = false"
     [checked]="thisWeekToggle">
-    Open this week events
+    Open this week createdEvents
   </mat-slide-toggle>
 
   <mat-slide-toggle
@@ -17,7 +17,7 @@
     color="primary"
     (change)="eventsFromRangeToggle = !eventsFromRangeToggle; thisWeekToggle = false; createEventToggle = false"
     [checked]="eventsFromRangeToggle">
-    Open menu for viewing events between dates
+    Open menu for viewing createdEvents between dates
   </mat-slide-toggle>
 </section>
 

@@ -25,7 +25,7 @@ public class StringUtils {
         if (emailType == EmailType.INVITE) {
             return createReminderSubject(event);
         }
-        return creteOnInviteSubject(event);
+        return createOnInviteSubject(event);
     }
 
     private static String createReminderSubject(Event event) {
@@ -37,7 +37,7 @@ public class StringUtils {
         return String.format("%s%s%s%d", REMINDER_EVENT, event.getTitle(), REMINDER_TIME, numberOfMinutes);
     }
 
-    private static String creteOnInviteSubject(Event event) {
+    private static String createOnInviteSubject(Event event) {
         String creatorName = event.getUser().getUserDetails().getName();
         String eventTitle = event.getTitle();
         return String.format("%s%s's event: %s", INVITE_SUBJECT, creatorName, eventTitle);

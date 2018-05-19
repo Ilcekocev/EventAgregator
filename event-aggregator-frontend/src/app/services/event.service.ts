@@ -15,15 +15,15 @@ export class EventService {
   }
 
   createEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>("/api/events", event);
+    return this.http.post<Event>("/api/createdEvents", event);
   }
 
   deleteEvent(id: number): Observable<any> {
-    return this.http.delete("/api/events/" + id);
+    return this.http.delete("/api/createdEvents/" + id);
   }
 
   updateEvent(event: Event): Observable<Event> {
-    return this.http.patch<Event>("/api/events", event);
+    return this.http.patch<Event>("/api/createdEvents", event);
   }
 
   thisWeekEvents(email: string): Observable<Event[]> {
@@ -37,7 +37,7 @@ export class EventService {
       id: id
     };
     console.log(params);
-    return this.http.get<Event[]>('/api/events/between', {params: params});
+    return this.http.get<Event[]>('/api/createdEvents/between', {params: params});
   }
 
 

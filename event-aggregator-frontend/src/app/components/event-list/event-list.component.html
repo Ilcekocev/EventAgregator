@@ -1,11 +1,11 @@
-  <mat-grid-list *ngIf="events != undefined && events.length > 0" [cols]="numberOfColumns" rowHeight="700" >
-    <mat-grid-tile *ngFor="let event of events">
+  <mat-grid-list *ngIf="createdEvents != undefined && createdEvents.length > 0" [cols]="numberOfColumns" rowHeight="700" >
+    <mat-grid-tile *ngFor="let event of createdEvents">
       <app-event-details [event]="event"></app-event-details>
     </mat-grid-tile>
   </mat-grid-list>
-  <mat-grid-list [cols]="1" *ngIf="events == undefined || events.length == 0" rowHeight="100">
+  <mat-grid-list [cols]="1" *ngIf="createdEvents == undefined || createdEvents.length == 0" rowHeight="100">
     <mat-grid-tile>
-      <h4 class="mat-h4">No events</h4>
+      <h4 class="mat-h4">No createdEvents</h4>
     </mat-grid-tile>
   </mat-grid-list>
 
