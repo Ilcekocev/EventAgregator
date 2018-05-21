@@ -1,6 +1,7 @@
 package com.sorsix.eventagregator.service.Impl;
 
 import com.sorsix.eventagregator.model.Event;
+import com.sorsix.eventagregator.repository.EventRepository;
 import com.sorsix.eventagregator.service.EmailService;
 import com.sorsix.eventagregator.utils.EmailType;
 import com.sorsix.eventagregator.utils.StringUtils;
@@ -11,6 +12,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -18,30 +21,42 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
 
-    public EmailServiceImpl(JavaMailSender javaMailSender) {
+    private final EventRepository eventRepository;
+
+    public EmailServiceImpl(JavaMailSender javaMailSender, EventRepository eventRepository) {
         this.javaMailSender = javaMailSender;
+        this.eventRepository = eventRepository;
     }
 
     @Override
-    @Async
-    public void sendEmail(Event event, EmailType emailType) {
-        SimpleMailMessage simpleMailMessage = createEmail(event, emailType);
-        logger.info("Trying to send email for event {}", event);
-        javaMailSender.send(simpleMailMessage);
+    public void sendEmail(SimpleMailMessage mailMessage) {
+        logger.info("Trying to send email with message {}", mailMessage);
+        javaMailSender.send(mailMessage);
         logger.info("Email has been sent");
     }
 
     @Override
-    public SimpleMailMessage createEmail(Event event, EmailType emailType) {
+    @Async
+    public CompletableFuture<SimpleMailMessage> createEmail(Event event, EmailType emailType) {
         String subject = StringUtils.createEmailSubject(event, emailType);
-        String emailBody = StringUtils.createEmailBody(event, emailType);
-        SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom(StringUtils.SENDER_EMAIL);
-        String receivedEmail = event.getUser().getId();
-        email.setTo(receivedEmail);
-        email.setSubject(subject);
-        email.setText(emailBody);
-        return email;
+        String body = StringUtils.createEmailBody(event, emailType);
+        String to = event.getUser().getId();
+        updateEvent(event);
+        return CompletableFuture.completedFuture(setupEmailProperties(to, subject, body));
+    }
+
+    private SimpleMailMessage setupEmailProperties(String to, String subject, String body) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom(StringUtils.SENDER_EMAIL);
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(body);
+        return simpleMailMessage;
+    }
+
+    private void updateEvent(Event event) {
+        event.setNotified(true);
+        eventRepository.save(event);
     }
 
 }

@@ -4,11 +4,11 @@ import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.utils.EmailType;
 import org.springframework.mail.SimpleMailMessage;
 
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 public interface EmailService {
 
-    void sendEmail(Event event, EmailType emailType);
+    void sendEmail(SimpleMailMessage mailMessage);
 
-    SimpleMailMessage createEmail(Event event, EmailType emailType);
+    CompletableFuture<SimpleMailMessage> createEmail(Event event, EmailType emailType);
 }

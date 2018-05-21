@@ -1,22 +1,17 @@
 package com.sorsix.eventagregator.configuration;
 
-import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.repository.EventRepository;
 import com.sorsix.eventagregator.service.EmailService;
 import com.sorsix.eventagregator.utils.EmailType;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 @Component
 public class EmailSendingTask {
@@ -49,11 +44,9 @@ public class EmailSendingTask {
         eventRepository.findAllByEmailNotificationIsTrueAndNotifiedIsFalse()
                 .parallelStream()
                 .filter(event -> EmailValidator.getInstance().isValid(event.getUser().getId()))
-                .forEach(each -> {
-                    emailService.sendEmail(each, EmailType.REMIND);
-                    each.setNotified(true);
-                    eventRepository.save(each);
-                });
+                .map(event -> emailService.createEmail(event, EmailType.REMIND))
+                .map(CompletableFuture::join)
+                .forEach(emailService::sendEmail);
     }
 
 }
