@@ -3,6 +3,7 @@ package com.sorsix.eventagregator.utils;
 public enum EmailType {
 
     INVITE,
-    REMIND
+    REMIND,
+    REMIND_INVITED
 
 }

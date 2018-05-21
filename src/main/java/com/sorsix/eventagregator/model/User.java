@@ -13,15 +13,16 @@ import java.util.List;
 @Setter
 public class User {
     @Id
+    @Column(name = "user_id")
     String id;
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    List<Event> createdEvents;
     @OneToOne
     UserDetails userDetails;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    List<Invitation> invitationList;
+    List<Event> createdEvents;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    List<Invitation> invitations;
 
     public User() {
     }

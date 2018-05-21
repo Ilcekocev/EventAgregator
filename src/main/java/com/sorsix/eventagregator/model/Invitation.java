@@ -1,12 +1,12 @@
 package com.sorsix.eventagregator.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -14,40 +14,46 @@ import javax.persistence.ManyToOne;
 @Setter
 public class Invitation {
 
-    @Id
-    private String email;
+    @EmbeddedId
+    InvitationId invitationId;
     @ManyToOne
+    @JoinColumn(name = "event_id", insertable = false, updatable = false)
     private Event event;
     @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
     private boolean notified;
 
     public Invitation() {
     }
 
-    public Invitation(String email, Event event, User user, boolean notified) {
-        this.email = email;
+    public Invitation(InvitationId invitationId, Event event, User user) {
+        this.invitationId = invitationId;
         this.event = event;
         this.user = user;
-        this.notified = notified;
+        this.notified = false;
     }
 
-    public Invitation(String email, Event event, User user) {
-        this.email = email;
+    public Invitation(InvitationId id, Event event) {
+        this.invitationId = id;
         this.event = event;
-        this.user = user;
     }
 
-    public Invitation(String email, Event event) {
-        this.email = email;
-        this.event = event;
+    public static Invitation createInvitationForRegisteredUser(User user, Event event) {
+        InvitationId invitationId = new InvitationId(user.getId(), event.getId());
+        return new Invitation(invitationId, event, user);
+    }
+
+    public static Invitation createInvitationForAnonymousUser(String email, Event event) {
+        InvitationId id = new InvitationId(email, event.getId());
+        return new Invitation(id, event);
     }
 
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("email", email)
-                .add("event", event)
+                .add("invitationId", invitationId)
+                .add("eventId", event)
                 .add("notified", notified)
                 .toString();
     }

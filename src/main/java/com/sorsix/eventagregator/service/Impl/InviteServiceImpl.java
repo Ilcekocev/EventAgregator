@@ -6,12 +6,16 @@ import com.sorsix.eventagregator.repository.EventRepository;
 import com.sorsix.eventagregator.repository.InvitationRepository;
 import com.sorsix.eventagregator.repository.UserRepository;
 import com.sorsix.eventagregator.service.InviteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class InviteServiceImpl implements InviteService {
+    private static final Logger logger = LoggerFactory.getLogger(InviteServiceImpl.class);
+
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final InvitationRepository invitationRepository;
@@ -28,12 +32,14 @@ public class InviteServiceImpl implements InviteService {
         return eventRepository.findById(invitationDTO.eventId)
                 .map(event -> userRepository.findById(invitationDTO.personEmail)
                         .map(user -> {
-                            Invitation invitation = new Invitation(user.getId(), event, user);
-                            return invitationRepository.save(invitation);
+                            Invitation invitation = invitationRepository.save(Invitation.createInvitationForRegisteredUser(user, event));
+                            logger.info("Invitation for a created user has been created: {}", invitation);
+                            return invitation;
                         })
                         .orElseGet(() -> {
-                            Invitation invitation = new Invitation(invitationDTO.personEmail, event);
-                            return invitationRepository.save(invitation);
+                            Invitation invitation = invitationRepository.save(Invitation.createInvitationForAnonymousUser(invitationDTO.personEmail, event));
+                            logger.info("Invitation for an anonymous user has been created: {}", invitation);
+                            return invitation;
                         }));
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 public class Event {
 
     @Id
+    @Column(name = "event_id")
     @GeneratedValue
     private Long id;
     private String title;
@@ -60,6 +61,7 @@ public class Event {
         this.endTime = endTime;
         this.user = user;
     }
+
 
     @Override
     public String toString() {
