@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @Setter
-public class InvitedPerson {
+public class Invitation {
 
     @Id
     private String email;
@@ -22,14 +22,25 @@ public class InvitedPerson {
     private User user;
     private boolean notified;
 
-    public InvitedPerson() {
+    public Invitation() {
     }
 
-    public InvitedPerson(String email, Event event, User user, boolean notified) {
+    public Invitation(String email, Event event, User user, boolean notified) {
         this.email = email;
         this.event = event;
         this.user = user;
         this.notified = notified;
+    }
+
+    public Invitation(String email, Event event, User user) {
+        this.email = email;
+        this.event = event;
+        this.user = user;
+    }
+
+    public Invitation(String email, Event event) {
+        this.email = email;
+        this.event = event;
     }
 
     @Override
@@ -37,7 +48,6 @@ public class InvitedPerson {
         return Objects.toStringHelper(this)
                 .add("email", email)
                 .add("event", event)
-                .add("user", user)
                 .add("notified", notified)
                 .toString();
     }

@@ -23,6 +23,6 @@ public class DateTimeUtils {
     }
 
     public static Long calculateDifference(LocalDateTime then) {
-        return ChronoUnit.MINUTES.between(LocalDateTime.now(), then);
+        return ChronoUnit.MINUTES.between(then, LocalDateTime.now());
     }
 }

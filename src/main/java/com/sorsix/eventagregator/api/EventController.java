@@ -1,5 +1,6 @@
 package com.sorsix.eventagregator.api;
 
+import com.sorsix.eventagregator.model.DTO.EventDTO;
 import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.model.enums.Type;
 import com.sorsix.eventagregator.service.EventService;
@@ -61,6 +62,11 @@ public class EventController {
                                                 @RequestParam String userId) {
         logger.info("Start time: {}\nEnd time {}", startTime, endTime);
         return eventService.findEventsBetween(userId, startTime, endTime);
+    }
+
+    @GetMapping("/public/{userId}")
+    public List<EventDTO> findAllPublicEventsAfterNow(@PathVariable String userId) {
+        return eventService.findAllPublicEventsAfterNow(userId);
     }
 
 

@@ -20,6 +20,8 @@ import {EventsFromRangeComponent} from "./components/events-from-range/events-fr
 import {AuthService} from "./services/auth.service";
 import {AuthGuard} from "./guards/auth.guard";
 import {EventService} from "./services/event.service";
+import { InvitationsComponent } from './components/invitations/invitations.component';
+import {InviteService} from "./services/invite.service";
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import {EventService} from "./services/event.service";
     EventDetailsComponent,
     EventListComponent,
     CreateEventComponent,
-    EventsFromRangeComponent
+    EventsFromRangeComponent,
+    InvitationsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,7 @@ import {EventService} from "./services/event.service";
     AppRoutingModule,
     LayoutModule
   ],
-  providers: [AuthService,AuthGuard,EventService],
+  providers: [AuthService,AuthGuard,EventService, InviteService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

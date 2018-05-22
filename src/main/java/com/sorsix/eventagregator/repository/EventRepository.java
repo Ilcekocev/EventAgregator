@@ -18,5 +18,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByEmailNotificationIsTrueAndNotifiedIsFalse();
 
     List<Event> findAllByEmailNotificationIsTrueAndNotifiedIsFalseAndStartTimeIsBetween(LocalDateTime before, LocalDateTime then);
+
+    List<Event> findAllByUserIdAndTypeAndStartTimeAfter(String userId, Type type, LocalDateTime now);
 }
 

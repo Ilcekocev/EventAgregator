@@ -1,5 +1,6 @@
 package com.sorsix.eventagregator.service.Impl;
 
+import com.sorsix.eventagregator.model.DTO.EventDTO;
 import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.model.enums.Type;
 import com.sorsix.eventagregator.repository.EventRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -63,4 +65,11 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAllByUserIdAndStartTimeBetween(userId, startOfWeek, endOfWeek);
     }
 
+    @Override
+    public List<EventDTO> findAllPublicEventsAfterNow(String userId) {
+        return eventRepository.findAllByUserIdAndTypeAndStartTimeAfter(userId, Type.PUBLIC, LocalDateTime.now())
+                .stream()
+                .map(EventDTO::createFromEvent)
+                .collect(Collectors.toList());
+    }
 }

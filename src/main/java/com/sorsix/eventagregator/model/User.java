@@ -19,7 +19,9 @@ public class User {
     List<Event> createdEvents;
     @OneToOne
     UserDetails userDetails;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    List<Invitation> invitationList;
 
     public User() {
     }

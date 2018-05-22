@@ -34,7 +34,7 @@ public class StringUtils {
 
     private static String createReminderBody(Event event) {
         Long numberOfMinutes = DateTimeUtils.calculateDifference(event.getStartTime());
-        return String.format("%s%s%s%d", REMINDER_EVENT, event.getTitle(), REMINDER_TIME, numberOfMinutes);
+        return String.format("%s%s%s%d minutes", REMINDER_EVENT, event.getTitle(), REMINDER_TIME, numberOfMinutes);
     }
 
     private static String createOnInviteSubject(Event event) {

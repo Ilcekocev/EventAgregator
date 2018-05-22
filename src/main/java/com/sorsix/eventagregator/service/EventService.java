@@ -1,5 +1,6 @@
 package com.sorsix.eventagregator.service;
 
+import com.sorsix.eventagregator.model.DTO.EventDTO;
 import com.sorsix.eventagregator.model.Event;
 import com.sorsix.eventagregator.model.enums.Type;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,7 @@ public interface EventService {
     List<Event> findEventsBetween(String userId, LocalDateTime startTime, LocalDateTime endTime);
 
     List<Event> findEventsForThisWeeK(String userId);
+
+    List<EventDTO> findAllPublicEventsAfterNow(String userId);
 
 }

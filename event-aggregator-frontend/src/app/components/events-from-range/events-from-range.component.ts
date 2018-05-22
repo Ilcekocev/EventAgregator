@@ -23,7 +23,7 @@ export class EventsFromRangeComponent implements OnInit{
     this.dates = this.fb.group({
       startDate: [Validators.required],
       endDate: [Validators.required]
-    })
+    });
     console.log("Created");
   }
 

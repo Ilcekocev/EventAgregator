@@ -34,9 +34,9 @@ public class Event {
     private boolean notified;
     @ManyToOne
     private User user;
+    @JsonIgnore
     @OneToMany(mappedBy = "event")
-    private List<InvitedPerson> invitedPerson;
-
+    private List<Invitation> invitations;
     public Event() {
     }
 
