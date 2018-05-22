@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
 @Getter
-@Setter
 public class OnEventInvite extends ApplicationEvent {
     /**
      * Create a new ApplicationEvent.

@@ -20,41 +20,41 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
     private static final Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
 
-    private EventRepository eventRepository;
+    private EventRepository repository;
 
     public EventServiceImpl(EventRepository repository) {
-        eventRepository = repository;
+        this.repository = repository;
     }
 
     @Override
     public Event createEvent(Event event) {
         logger.info("creating a new event");
-        return eventRepository.save(event);
+        return repository.save(event);
     }
 
     @Override
     public void deleteEvent(Long id) {
         logger.info("Deleting event with id: {}", id);
-        eventRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     @Override
     public List<Event> findEventsForUserWithType(String userId, Type type) {
         logger.info("{} {}", userId, type);
-        return eventRepository.findEventsByUserIdAndType(userId, type);
+        return repository.findEventsByUserIdAndType(userId, type);
     }
 
     @Override
     public List<Event> findEventsBetween(String userId, LocalDateTime startTime, LocalDateTime endTime) {
-        return eventRepository.findAllByUserIdAndStartTimeBetween(userId, startTime, endTime);
+        return repository.findAllByUserIdAndStartTimeBetween(userId, startTime, endTime);
     }
 
     @Override
     public Optional<Event> updateEvent(Event updatedEvent) {
-        return eventRepository.findById(updatedEvent.getId())
+        return repository.findById(updatedEvent.getId())
                 .map(event -> {
                     event = updatedEvent;
-                    return eventRepository.save(event);
+                    return repository.save(event);
                 });
     }
 
@@ -62,12 +62,12 @@ public class EventServiceImpl implements EventService {
     public List<Event> findEventsForThisWeeK(String userId) {
         LocalDateTime startOfWeek = DateTimeUtils.getFirstDayOfWeek();
         LocalDateTime endOfWeek = DateTimeUtils.getLastDayOfWeek();
-        return eventRepository.findAllByUserIdAndStartTimeBetween(userId, startOfWeek, endOfWeek);
+        return repository.findAllByUserIdAndStartTimeBetween(userId, startOfWeek, endOfWeek);
     }
 
     @Override
     public List<EventDTO> findAllPublicEventsAfterNow(String userId) {
-        return eventRepository.findAllByUserIdAndTypeAndStartTimeAfter(userId, Type.PUBLIC, LocalDateTime.now())
+        return repository.findAllByUserIdAndTypeAndStartTimeAfter(userId, Type.PUBLIC, LocalDateTime.now())
                 .stream()
                 .map(EventDTO::createFromEvent)
                 .collect(Collectors.toList());

@@ -4,6 +4,7 @@ package com.sorsix.eventagregator.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import com.sorsix.eventagregator.model.enums.Type;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "createdEvents")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Event {
 
     @Id

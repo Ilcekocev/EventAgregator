@@ -29,17 +29,8 @@ public class InviteServiceImpl implements InviteService {
 
     @Override
     public Optional<Invitation> invite(InvitationDTO invitationDTO) {
-        return eventRepository.findById(invitationDTO.eventId)
-                .map(event -> userRepository.findById(invitationDTO.personEmail)
-                        .map(user -> {
-                            Invitation invitation = invitationRepository.save(Invitation.createInvitationForRegisteredUser(user, event));
-                            logger.info("Invitation for a created user has been created: {}", invitation);
-                            return invitation;
-                        })
-                        .orElseGet(() -> {
-                            Invitation invitation = invitationRepository.save(Invitation.createInvitationForAnonymousUser(invitationDTO.personEmail, event));
-                            logger.info("Invitation for an anonymous user has been created: {}", invitation);
-                            return invitation;
-                        }));
+        return userRepository.findById(invitationDTO.personEmail)
+                .flatMap(user -> eventRepository.findById(invitationDTO.eventId)
+                        .map(event -> invitationRepository.save(Invitation.createInvitationForRegisteredUser(user, event))));
     }
 }

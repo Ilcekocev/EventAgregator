@@ -34,9 +34,8 @@ public class EmailSendingTask {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime nextHour = now.plusHours(1);
         logger.info("Now: {}, one hour later: {}", now, nextHour);
-        //replace with findAllByEmailNotificationIsTrueAndNotifiedIsFalseAndStartTimeIsBetween(LocalDateTime before, LocalDateTime then);
         logger.info("Reminding every user about their upcoming event/s");
-        eventRepository.findAllByEmailNotificationIsTrueAndNotifiedIsFalse()
+        eventRepository.findAllByEmailNotificationIsTrueAndNotifiedIsFalseAndStartTimeIsBetween(now, nextHour)
                 .parallelStream()
                 .filter(event -> EmailValidator.getInstance().isValid(event.getUser().getId()))
                 .map(event -> emailService.createEmail(event, EmailType.REMIND))

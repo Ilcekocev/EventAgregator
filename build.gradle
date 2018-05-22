@@ -31,6 +31,7 @@ dependencies {
 	compile group: 'com.google.guava', name: 'guava', version: 'r05'
 	compileOnly 'org.projectlombok:lombok:1.16.20'
 	runtime('org.springframework.boot:spring-boot-devtools')
+	runtime("org.hsqldb:hsqldb")
 	runtime('org.postgresql:postgresql')
 	compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.0.RELEASE'
 	compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
@@ -38,5 +39,6 @@ dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
-	testCompile group: 'com.jayway.restassured', name: 'rest-assured', version: '2.9.0'
+	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
+	testCompile 'io.rest-assured:rest-assured:3.1.0'
 }

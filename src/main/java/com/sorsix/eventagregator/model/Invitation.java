@@ -34,20 +34,11 @@ public class Invitation {
         this.notified = false;
     }
 
-    public Invitation(InvitationId id, Event event) {
-        this.invitationId = id;
-        this.event = event;
-    }
-
     public static Invitation createInvitationForRegisteredUser(User user, Event event) {
         InvitationId invitationId = new InvitationId(user.getId(), event.getId());
         return new Invitation(invitationId, event, user);
     }
 
-    public static Invitation createInvitationForAnonymousUser(String email, Event event) {
-        InvitationId id = new InvitationId(email, event.getId());
-        return new Invitation(id, event);
-    }
 
     @Override
     public String toString() {
